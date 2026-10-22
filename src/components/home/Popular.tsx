@@ -57,7 +57,7 @@ export function Popular({ products }: { products: Product[] }) {
 
         <ul
           ref={rail}
-          className="no-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pt-8 pb-4 md:mx-0 md:mt-12 md:gap-6 md:px-0"
+          className="no-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth scroll-px-5 px-5 pt-2 pb-4 md:scroll-px-0 md:mx-0 md:mt-12 md:gap-6 md:px-0"
         >
           {products.map((p, i) => (
             <motion.li
@@ -69,11 +69,12 @@ export function Popular({ products }: { products: Product[] }) {
               transition={{ duration: 0.6, delay: (i % 4) * 0.08 }}
             >
               <Link href={`/menu?mon=${p.slug}`} className="group block">
-                <div className="relative">
-                  <span className="absolute -top-7 left-1/2 z-10 -translate-x-1/2 rounded-t-md bg-caramel px-3 py-1.5 text-[10px] font-bold tracking-[0.08em] whitespace-nowrap text-ink uppercase md:text-[11px]">
+                {/* The tag sits in the flow above the frame, so the sideways-scrolling row never clips it. */}
+                <div className="flex flex-col items-center">
+                  <span className="rounded-t-md bg-caramel px-3 py-1.5 text-[10px] leading-none font-bold tracking-[0.08em] whitespace-nowrap text-ink uppercase md:text-[11px]">
                     {p.badge ? badgeText[p.badge] : "Phjn"}
                   </span>
-                  <div className="rounded-t-2xl bg-espresso p-2 pb-0">
+                  <div className="w-full rounded-t-2xl bg-espresso p-2 pb-0">
                     <ProductPhoto
                       item={p}
                       className="aspect-[4/5] rounded-t-xl [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-105"
