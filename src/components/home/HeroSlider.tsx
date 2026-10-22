@@ -7,12 +7,12 @@ import { useEffect, useRef, useState } from "react";
 import { useHeroScene } from "@/lib/hero-scene";
 import { BeansIcon } from "../brand/Logo";
 
-/** `video` is a base path: "-720.mp4" (wide screens) or "-480.mp4" (phones) is added. */
+/** `video` is a 9-second 720p loop; `poster` shows until it can play. */
 type Slide = { video: string; poster: string; kicker: string; title: string; text: string; cta: { href: string; label: string } };
 
 const slides: Slide[] = [
   {
-    video: "/videos/latte-art",
+    video: "/videos/latte-art.mp4",
     poster: "/videos/latte-art.webp",
     kicker: "Cà phê",
     title: "Pha bằng tay, từng ly một",
@@ -20,7 +20,7 @@ const slides: Slide[] = [
     cta: { href: "/menu#cat-ca-phe", label: "Xem cà phê" },
   },
   {
-    video: "/videos/tea",
+    video: "/videos/tea.mp4",
     poster: "/videos/tea.webp",
     kicker: "Trà",
     title: "Trà ủ mới mỗi sáng",
@@ -28,7 +28,7 @@ const slides: Slide[] = [
     cta: { href: "/menu#cat-tra", label: "Xem trà" },
   },
   {
-    video: "/videos/bakery",
+    video: "/videos/bakery.mp4",
     poster: "/videos/bakery.webp",
     kicker: "Bánh",
     title: "Ra lò lúc 6 giờ sáng",
@@ -157,54 +157,52 @@ export function HeroSlider() {
     return () => window.clearTimeout(timer);
   }, [index, reduce, isVideo]);
 
-  // Which file size to stream: 480p on phones, 720p elsewhere, none (posters only) when the visitor
-  // asked to save data, the connection is 2G, or they prefer reduced motion.
-  const [quality, setQuality] = useState<"480" | "720" | null>(null);
-  // Slides whose video has been allowed to download. Nothing loads until the page itself has.
+  // Slides whose video may download. The first starts once the page itself has loaded; the others
+  // follow one at a time, so the next slide is ready before it is shown.
   const [loaded, setLoaded] = useState<Set<number>>(() => new Set());
 
   useEffect(() => {
-    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-    if (reduce || conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? "")) return setQuality(null);
-    setQuality(window.matchMedia("(max-width: 767px)").matches ? "480" : "720");
-  }, [reduce]);
-
-  useEffect(() => {
-    if (!quality) return;
     const start = () => setLoaded((s) => new Set(s).add(0));
     if (document.readyState === "complete") start();
     else window.addEventListener("load", start, { once: true });
     return () => window.removeEventListener("load", start);
-  }, [quality]);
+  }, []);
 
-  // The current slide and the next one may load; the rest wait their turn.
   useEffect(() => {
-    if (!quality || !isVideo) return;
-    setLoaded((s) => (s.has(index) && s.has((index + 1) % slides.length) ? s : new Set(s).add(index).add((index + 1) % slides.length)));
-  }, [index, isVideo, quality]);
+    if (!isVideo) return;
+    const next = (index + 1) % slides.length;
+    setLoaded((s) => (s.has(index) && s.has(next) ? s : new Set(s).add(index).add(next)));
+  }, [index, isVideo]);
 
+  // The current video already plays behind the paper, so it is running (not starting up) when the
+  // curtain lifts. Changing slide restarts it from the beginning.
   useEffect(() => {
     videos.current.forEach((v, i) => {
       if (!v) return;
-      if (i === index && isVideo && !reduce && loaded.has(i)) {
-        v.currentTime = 0;
-        v.play().catch(() => {});
-      } else {
-        v.pause();
-      }
+      if (i === index && !reduce && loaded.has(i)) v.play().catch(() => {});
+      else v.pause();
     });
-  }, [index, reduce, isVideo, loaded]);
+  }, [index, reduce, loaded]);
+
+  const shown = useRef(index);
+  useEffect(() => {
+    if (shown.current === index) return;
+    shown.current = index;
+    const v = videos.current[index];
+    if (v) v.currentTime = 0;
+  }, [index]);
 
   const slide = slides[index];
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length);
 
   return (
     <section id="top" aria-label="Giới thiệu" className="relative h-[calc(100svh-4rem)] min-h-[520px] overflow-hidden bg-espresso lg:h-dvh">
-      {/* Video layer */}
+      {/* Video layer. Only transform and opacity animate here: a blur over full-screen video is
+          too heavy for phones and made the scene change stutter. */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 will-change-transform"
         initial={false}
-        animate={{ scale: isVideo ? 1 : 1.18, filter: isVideo ? "blur(0px)" : "blur(8px)" }}
+        animate={{ scale: isVideo ? 1 : 1.18 }}
         transition={{ duration: t(1.5), ease }}
       >
         {slides.map((s, i) => (
@@ -215,12 +213,12 @@ export function HeroSlider() {
             }}
             aria-hidden
             className="absolute inset-0 size-full object-cover"
-            src={quality && loaded.has(i) ? `${s.video}-${quality}.mp4` : undefined}
+            src={loaded.has(i) ? s.video : undefined}
             poster={s.poster}
             muted
             loop
             playsInline
-            preload={quality && loaded.has(i) ? "auto" : "none"}
+            preload={loaded.has(i) ? "auto" : "none"}
             initial={false}
             animate={{ opacity: i === index ? 1 : 0 }}
             transition={{ duration: t(1.2) }}
@@ -287,14 +285,14 @@ export function HeroSlider() {
 
       {/* Kraft paper curtain with the name */}
       <motion.div
-        className="kraft absolute inset-0 overflow-hidden shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)]"
+        className="kraft absolute inset-0 overflow-hidden will-change-transform shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)]"
         initial={false}
         animate={{ y: isVideo ? "-100%" : "0%" }}
         transition={{ duration: t(1.2), ease: curtain, delay: isVideo ? t(0.15) : 0 }}
         inert={isVideo}
       >
         <motion.div
-          className="pointer-events-none absolute inset-0 hidden md:block"
+          className="pointer-events-none absolute inset-0 hidden will-change-transform md:block"
           aria-hidden
           initial={false}
           animate={{ x: isVideo ? "-35%" : "0%", opacity: isVideo ? 0 : 1 }}
@@ -315,7 +313,7 @@ export function HeroSlider() {
         </motion.div>
 
         <motion.div
-          className="pointer-events-none absolute -right-[22%] -bottom-[10%] w-[72vw] max-w-[560px] md:top-1/2 md:-right-[14%] md:bottom-auto md:w-[34vw] md:-translate-y-[30%]"
+          className="pointer-events-none absolute will-change-transform -right-[22%] -bottom-[10%] w-[72vw] max-w-[560px] md:top-1/2 md:-right-[14%] md:bottom-auto md:w-[34vw] md:-translate-y-[30%]"
           aria-hidden
           initial={false}
           animate={{ x: isVideo ? "35%" : "0%", rotate: isVideo ? 35 : 0, opacity: isVideo ? 0 : 1 }}

@@ -231,7 +231,7 @@ function CartButton({ compact = false, light = false }: { compact?: boolean; lig
       aria-label={`Giỏ hàng, ${count} món`}
       className={`relative grid size-11 place-items-center rounded-full transition-colors ${tone}`}
     >
-      <BagIcon />
+      <CartIcon />
       <AnimatePresence>
         {count > 0 && (
           <motion.span
@@ -249,11 +249,12 @@ function CartButton({ compact = false, light = false }: { compact?: boolean; lig
   );
 }
 
-function BagIcon() {
+function CartIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M6 7h12l-1 13H7L6 7Z" />
-      <path d="M9 7a3 3 0 0 1 6 0" />
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M2.5 3.5h2.2l2.4 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2L21 7.5H5.6" />
+      <circle cx="9.5" cy="20" r="1.3" />
+      <circle cx="17" cy="20" r="1.3" />
     </svg>
   );
 }
