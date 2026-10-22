@@ -66,10 +66,12 @@ export function Mosaic() {
               className="object-cover transition-transform duration-[1.2s] ease-out hover:scale-110"
             />
           ) : (
-            <InfoTile>
+            <InfoTile dark={cell.kind === "delivery"}>
               {cell.kind === "hours" && (
                 <>
-                  <TileTitle>Nhận đơn online</TileTitle>
+                  <TileTitle>
+                    Giờ <em>mở cửa</em>
+                  </TileTitle>
                   <dl className="mt-5 space-y-3 text-sm text-ink-soft">
                     {[
                       ["Thứ 2 – Thứ 6", "7:00 – 22:00"],
@@ -88,14 +90,16 @@ export function Mosaic() {
               )}
               {cell.kind === "delivery" && (
                 <>
-                  <TileTitle>Gọi món tại bàn</TileTitle>
+                  <TileTitle>
+                    Gọi món <em>tại bàn</em>
+                  </TileTitle>
                   <p className="mt-5 max-w-[15rem] text-sm leading-relaxed text-ink-soft">
                     Quét mã QR trên bàn, chọn món và chỉnh từng ly theo ý. Nhân
                     viên mang ra tận bàn.
                   </p>
                   <Link
                     href="/menu"
-                    className="mt-6 rounded-full border border-ink/40 px-7 py-3 text-xs font-medium tracking-[0.18em] uppercase transition-colors hover:border-caramel hover:bg-caramel hover:text-cream"
+                    className="mt-6 rounded-full bg-caramel px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-caramel-dark"
                   >
                     Xem thực đơn
                   </Link>
@@ -123,9 +127,13 @@ export function Mosaic() {
   );
 }
 
-function InfoTile({ children }: { children: React.ReactNode }) {
+function InfoTile({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
-    <div className="relative flex size-full flex-col items-center justify-center bg-paper-2 p-6 text-center">
+    <div
+      className={`relative flex size-full flex-col items-center justify-center p-6 text-center ${
+        dark ? "bg-espresso text-cream [&_p]:text-cream/80" : "bg-paper-2"
+      }`}
+    >
       {/* faint coffee-bean line art behind the text */}
       <svg
         aria-hidden
@@ -159,7 +167,7 @@ function InfoTile({ children }: { children: React.ReactNode }) {
 
 function TileTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="font-display text-3xl font-medium whitespace-nowrap lg:text-2xl xl:text-3xl">
+    <h3 className="font-display text-3xl whitespace-nowrap lg:text-2xl xl:text-3xl">
       {children}
     </h3>
   );

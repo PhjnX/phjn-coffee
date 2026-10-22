@@ -14,10 +14,13 @@ export default async function MenuPage({ searchParams }: Props) {
   const available = menu.products.filter((p) => p.isAvailable).length;
   return (
     <main>
-      <header className="kraft border-b border-line">
-        <div className="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
-          <h1 className="font-display text-4xl md:text-5xl">Thực đơn</h1>
-          <p className="mt-2 text-ink-soft">{available} món đang phục vụ · chỉnh size, đường, đá theo ý bạn · quét mã QR trên bàn để gọi món</p>
+      <header className="bg-espresso text-cream">
+        <div className="mx-auto max-w-6xl px-4 py-9 md:px-8 md:py-14">
+          <p className="text-[13px] font-semibold tracking-[0.18em] text-[#f0a46f] uppercase">{available} món đang phục vụ</p>
+          <h1 className="mt-2 font-display text-[44px] leading-none md:text-6xl">
+            Thực đơn <em className="text-[#f0a46f]">Phjn</em>
+          </h1>
+          <p className="mt-3 max-w-lg text-cream/80">Chỉnh size, đường, đá theo ý bạn. Quét mã QR trên bàn để gọi món.</p>
         </div>
       </header>
       <MenuView menu={menu} initialProductSlug={mon} />

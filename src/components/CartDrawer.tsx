@@ -194,7 +194,7 @@ function Panel() {
             <Link
               href="/checkout"
               onClick={close}
-              className="flex w-full items-center justify-center rounded-full bg-ink py-3.5 text-sm font-semibold text-cream transition-colors hover:bg-caramel"
+              className="flex w-full items-center justify-center rounded-full bg-caramel py-3.5 text-sm font-semibold text-white transition-colors hover:bg-caramel-dark"
             >
               Đặt hàng · {formatVND(subtotal)}
             </Link>

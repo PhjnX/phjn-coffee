@@ -23,9 +23,9 @@ export function Welcome() {
     <section id="cau-chuyen" ref={ref} className="scroll-mt-20 overflow-hidden py-24 md:py-32">
       <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 md:grid-cols-2 md:px-10">
         <div>
-          <SectionTitle script="Chào bạn đến với" title="Phjn Coffee" align="left" />
+          <SectionTitle script="Chào bạn đến với" title="Phjn *Coffee*" align="left" />
           <motion.div
-            className="mt-8 space-y-4 text-[17px] leading-relaxed text-ink-soft"
+            className="mt-6 space-y-4 text-[17px] leading-relaxed text-ink-soft"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -37,9 +37,7 @@ export function Welcome() {
             </p>
             <p>Mỗi sáng 6 giờ, mẻ bánh đầu tiên ra lò. Cold brew được ủ 16 tiếng, trân châu nấu lại mỗi 4 tiếng.</p>
           </motion.div>
-          <p className="mt-6 font-display text-2xl text-caramel-dark">Phjn Coffee</p>
-
-          <ul className="mt-12 grid gap-8 sm:grid-cols-3">
+          <ul className="mt-10 grid gap-3 sm:grid-cols-3">
             {features.map((f, i) => (
               <motion.li
                 key={f.title}
@@ -48,9 +46,13 @@ export function Welcome() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.15 + i * 0.1 }}
               >
-                <span className="text-caramel">{f.icon}</span>
-                <p className="mt-3 text-xs font-semibold tracking-[0.18em] uppercase">{f.title}</p>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{f.text}</p>
+                <div className="flex h-full items-center gap-4 rounded-3xl bg-card p-4 sm:flex-col sm:items-start sm:p-5">
+                  <span className="grid size-14 shrink-0 place-items-center rounded-full bg-espresso text-cream [&_svg]:size-7">{f.icon}</span>
+                  <span>
+                    <span className="block font-display text-lg leading-tight">{f.title}</span>
+                    <span className="mt-1 block text-sm leading-snug text-ink-soft">{f.text}</span>
+                  </span>
+                </div>
               </motion.li>
             ))}
           </ul>
