@@ -27,7 +27,7 @@ const steps = [
 /** "Taste from the process": a short heading and note, then three steps as dark / tan / dark cards. */
 export function Process() {
   return (
-    <section id="cau-chuyen" className="scroll-mt-16 bg-paper py-20 md:py-28">
+    <section id="cau-chuyen" className="scroll-mt-16 bg-paper py-14 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <div className="grid gap-5 md:grid-cols-2 md:items-end md:gap-16">
           <Reveal from="left">
@@ -46,7 +46,7 @@ export function Process() {
           </Reveal>
         </div>
 
-        <ul className="mt-10 grid gap-4 sm:grid-cols-3 md:mt-14 md:gap-8">
+        <ul className="mt-8 grid gap-3 sm:grid-cols-3 md:mt-14 md:gap-8">
           {steps.map((s, i) => (
             <motion.li
               key={s.title}
@@ -54,19 +54,25 @@ export function Process() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.4 }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`flex flex-col items-center rounded-2xl px-6 py-9 text-center shadow-[0_18px_36px_-24px_rgb(58_31_22/0.6)] ${
+              className={`flex items-center gap-4 rounded-2xl px-5 py-5 text-left shadow-[0_18px_36px_-24px_rgb(58_31_22/0.6)] sm:flex-col sm:gap-0 sm:px-6 sm:py-9 sm:text-center ${
                 s.tone === "dark"
                   ? "bg-espresso text-cream"
                   : "bg-caramel text-ink"
               }`}
             >
-              <span className="[&_svg]:size-12">{s.icon}</span>
-              <p className="mt-4 font-display text-base font-bold">{s.title}</p>
-              <p
-                className={`mt-1.5 text-sm leading-snug ${s.tone === "dark" ? "text-cream/80" : "text-ink/80"}`}
-              >
-                {s.text}
-              </p>
+              <span className="shrink-0 [&_svg]:size-10 sm:[&_svg]:size-12">
+                {s.icon}
+              </span>
+              <div>
+                <p className="font-display text-base font-bold sm:mt-4">
+                  {s.title}
+                </p>
+                <p
+                  className={`mt-1.5 text-sm leading-snug ${s.tone === "dark" ? "text-cream/80" : "text-ink/80"}`}
+                >
+                  {s.text}
+                </p>
+              </div>
             </motion.li>
           ))}
         </ul>

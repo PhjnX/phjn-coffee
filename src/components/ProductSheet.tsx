@@ -261,7 +261,7 @@ function Sheet({
                 type="button"
                 onClick={handleAdd}
                 disabled={!result.ok}
-                className="flex h-12 flex-1 items-center justify-between rounded-full bg-ink pr-5 pl-6 text-[15px] font-semibold text-cream transition-colors hover:bg-caramel-dark disabled:opacity-40"
+                className="flex h-12 min-w-0 flex-1 items-center justify-between gap-2 rounded-full bg-ink pr-4 pl-5 text-sm font-semibold whitespace-nowrap text-cream transition-colors hover:bg-caramel-dark disabled:opacity-40 sm:pr-5 sm:pl-6 sm:text-[15px]"
               >
                 <span>Thêm vào giỏ</span>
                 <AnimatePresence mode="popLayout" initial={false}>

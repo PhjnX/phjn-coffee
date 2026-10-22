@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function QuantityStepper({ value, onChange, min = 1, max = 20, size = "md", label }: Props) {
-  const btn = size === "sm" ? "size-7 text-base" : "size-11 text-lg";
+  const btn = size === "sm" ? "size-7 text-base" : "size-10 text-lg sm:size-11";
   return (
     <div role="group" aria-label={label} className="inline-flex items-center rounded-full border border-line bg-card">
       <button

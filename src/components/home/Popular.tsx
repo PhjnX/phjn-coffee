@@ -47,7 +47,7 @@ export function Popular({ products }: { products: Product[] }) {
     });
 
   return (
-    <section id="yeu-thich" className="scroll-mt-16 bg-card py-20 md:py-28">
+    <section id="yeu-thich" className="scroll-mt-16 bg-card py-14 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <Reveal>
           <h2 className="text-center font-display text-[30px] md:text-[40px]">
@@ -57,7 +57,7 @@ export function Popular({ products }: { products: Product[] }) {
 
         <ul
           ref={rail}
-          className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pt-8 pb-4 md:mx-0 md:mt-12 md:gap-6 md:px-0"
+          className="no-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pt-8 pb-4 md:mx-0 md:mt-12 md:gap-6 md:px-0"
         >
           {products.map((p, i) => (
             <motion.li

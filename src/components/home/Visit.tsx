@@ -15,9 +15,9 @@ export function Visit() {
   return (
     <section
       id="cua-hang"
-      className="kraft scroll-mt-16 overflow-hidden py-20 md:py-24"
+      className="kraft scroll-mt-16 overflow-hidden py-14 md:py-24"
     >
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-2 md:px-10">
+      <div className="mx-auto grid max-w-6xl items-center gap-6 px-5 md:grid-cols-2 md:gap-12 md:px-10">
         <Reveal from="left">
           <span className="inline-block rounded-full border border-ink/30 px-3 py-1 text-[11px] font-bold tracking-[0.12em] uppercase">
             Sắp khai trương
@@ -51,7 +51,7 @@ export function Visit() {
           </Link>
         </Reveal>
 
-        <div className="relative mx-auto aspect-square w-full max-w-[440px]">
+        <div className="relative mx-auto aspect-square w-full max-w-[300px] sm:max-w-[440px]">
           {[
             { b: 1, x: 6, y: 18, w: 18, r: -30 },
             { b: 2, x: 70, y: 6, w: 15, r: 40 },

@@ -8,7 +8,7 @@ export default function NotFound() {
         <Link href="/" aria-label="Phjn Coffee, về trang chủ" className="inline-block text-ink">
           <Logo className="w-40" />
         </Link>
-        <p className="mt-10 font-display text-7xl text-caramel">404</p>
+        <p className="mt-10 font-display text-7xl text-caramel-dark">404</p>
         <h1 className="mt-2 font-display text-3xl">Không tìm thấy trang này</h1>
         <p className="mt-2 text-ink-soft">Có thể đường dẫn đã cũ. Ly cà phê của bạn vẫn đang chờ ở thực đơn.</p>
         <div className="mt-8 flex justify-center gap-3">

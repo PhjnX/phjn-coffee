@@ -60,12 +60,12 @@ export function Spotlight({
     setIndex((i) => (i + dir + list.length) % list.length);
 
   return (
-    <section id="thuc-don" className="scroll-mt-16 bg-card py-20 md:py-28">
+    <section id="thuc-don" className="scroll-mt-16 bg-card py-14 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <div
           role="tablist"
           aria-label="Danh mục"
-          className="no-scrollbar -mx-5 flex justify-start overflow-x-auto px-5 md:mx-0 md:justify-center md:px-0"
+          className="no-scrollbar -mx-5 flex justify-start overflow-x-auto px-5 [mask-image:linear-gradient(to_right,black_85%,transparent)] md:mx-0 md:justify-center md:px-0 md:[mask-image:none]"
         >
           {tabs.map((c, i) => (
             <div key={c.id} className="flex shrink-0 items-center">
@@ -171,11 +171,11 @@ function Showcase({
   }
 
   return (
-    <div className="mt-8 grid items-center gap-6 md:mt-12 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:gap-14">
+    <div className="mt-4 grid items-center gap-2 md:mt-12 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:gap-14">
       {/* The ring with the drink and its sizes */}
       <Reveal
         from="left"
-        className="relative mx-auto aspect-square w-full max-w-[500px]"
+        className="relative mx-auto aspect-square w-full max-w-[300px] sm:max-w-[400px] md:max-w-[500px]"
       >
         <div
           aria-hidden

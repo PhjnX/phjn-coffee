@@ -149,7 +149,7 @@ export function CheckoutView() {
                   Nhân viên sẽ mang món ra tận bàn
                 </p>
               </div>
-              <span className="text-[11px] tracking-[0.18em] text-caramel uppercase">
+              <span className="shrink-0 text-[11px] font-semibold tracking-[0.14em] whitespace-nowrap text-caramel-dark uppercase">
                 Tại quán
               </span>
             </div>

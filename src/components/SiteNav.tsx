@@ -90,7 +90,7 @@ export function SiteNav({ categories }: { categories: Category[] }) {
                 l.active
                   ? overlay
                     ? "text-white"
-                    : "text-caramel"
+                    : "text-caramel-dark"
                   : overlay
                     ? "text-white/80 hover:text-white"
                     : "text-ink/85"
