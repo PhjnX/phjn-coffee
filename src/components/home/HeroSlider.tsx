@@ -7,7 +7,14 @@ import { useEffect, useRef, useState } from "react";
 import { useHeroScene } from "@/lib/hero-scene";
 
 /** `video` is a 9-second 720p loop; `poster` shows until it can play. */
-type Slide = { video: string; poster: string; kicker: string; title: string; text: string; cta: { href: string; label: string } };
+type Slide = {
+  video: string;
+  poster: string;
+  kicker: string;
+  title: string;
+  text: string;
+  cta: { href: string; label: string };
+};
 
 const slides: Slide[] = [
   {
@@ -152,7 +159,10 @@ export function HeroSlider() {
   // Slides advance only while the video scene is showing.
   useEffect(() => {
     if (reduce || !isVideo) return;
-    const timer = window.setTimeout(() => setIndex((i) => (i + 1) % slides.length), SLIDE_MS);
+    const timer = window.setTimeout(
+      () => setIndex((i) => (i + 1) % slides.length),
+      SLIDE_MS,
+    );
     return () => window.clearTimeout(timer);
   }, [index, reduce, isVideo]);
 
@@ -170,7 +180,9 @@ export function HeroSlider() {
   useEffect(() => {
     if (!isVideo) return;
     const next = (index + 1) % slides.length;
-    setLoaded((s) => (s.has(index) && s.has(next) ? s : new Set(s).add(index).add(next)));
+    setLoaded((s) =>
+      s.has(index) && s.has(next) ? s : new Set(s).add(index).add(next),
+    );
   }, [index, isVideo]);
 
   // The current video already plays behind the paper, so it is running (not starting up) when the
@@ -192,10 +204,15 @@ export function HeroSlider() {
   }, [index]);
 
   const slide = slides[index];
-  const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length);
+  const go = (dir: 1 | -1) =>
+    setIndex((i) => (i + dir + slides.length) % slides.length);
 
   return (
-    <section id="top" aria-label="Giới thiệu" className="relative h-[calc(100svh-4rem)] min-h-[520px] overflow-hidden bg-espresso lg:h-dvh">
+    <section
+      id="top"
+      aria-label="Giới thiệu"
+      className="relative h-[calc(100svh-4rem)] min-h-[520px] overflow-hidden bg-espresso lg:h-dvh"
+    >
       {/* Video layer. Only transform and opacity animate here: a blur over full-screen video is
           too heavy for phones and made the scene change stutter. */}
       <motion.div
@@ -251,8 +268,12 @@ export function HeroSlider() {
               transition={{ duration: t(0.7), ease }}
               className="flex max-w-3xl flex-col items-center"
             >
-              <h2 className="font-display text-4xl leading-tight md:text-6xl">{slide.title}</h2>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85 md:text-lg">{slide.text}</p>
+              <h2 className="font-display text-4xl leading-tight md:text-6xl">
+                {slide.title}
+              </h2>
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85 md:text-lg">
+                {slide.text}
+              </p>
               <Link
                 href={slide.cta.href}
                 className="mt-9 inline-flex h-12 items-center rounded-full bg-caramel px-8 text-[13px] font-bold tracking-[0.08em] text-ink uppercase transition-colors hover:bg-cream"
@@ -287,7 +308,11 @@ export function HeroSlider() {
         className="kraft absolute inset-0 overflow-hidden will-change-transform shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)]"
         initial={false}
         animate={{ y: isVideo ? "-100%" : "0%" }}
-        transition={{ duration: t(1.2), ease: curtain, delay: isVideo ? t(0.15) : 0 }}
+        transition={{
+          duration: t(1.2),
+          ease: curtain,
+          delay: isVideo ? t(0.15) : 0,
+        }}
         inert={isVideo}
       >
         <motion.div
@@ -301,12 +326,22 @@ export function HeroSlider() {
             <motion.div
               key={i}
               className="absolute"
-              style={{ left: `${b.x}%`, top: `${b.y}%`, width: `clamp(32px, ${b.w / 14}vw, ${b.w}px)` }}
+              style={{
+                left: `${b.x}%`,
+                top: `${b.y}%`,
+                width: `clamp(32px, ${b.w / 14}vw, ${b.w}px)`,
+              }}
               initial={{ opacity: 0, y: -30, rotate: b.r - 40 }}
               animate={{ opacity: 1, y: 0, rotate: b.r }}
               transition={{ duration: t(1.1), delay: t(0.3 + i * 0.08), ease }}
             >
-              <Image src={`/images/deco/bean-${b.b}.webp`} alt="" width={120} height={160} className="h-auto w-full drop-shadow-[0_10px_10px_rgb(59_46_37/0.35)]" />
+              <Image
+                src={`/images/deco/bean-${b.b}.webp`}
+                alt=""
+                width={120}
+                height={160}
+                className="h-auto w-full drop-shadow-[0_10px_10px_rgb(59_46_37/0.35)]"
+              />
             </motion.div>
           ))}
         </motion.div>
@@ -315,11 +350,26 @@ export function HeroSlider() {
           className="pointer-events-none absolute will-change-transform -right-[22%] -bottom-[10%] w-[72vw] max-w-[560px] md:top-1/2 md:-right-[14%] md:bottom-auto md:w-[34vw] md:-translate-y-[30%]"
           aria-hidden
           initial={false}
-          animate={{ x: isVideo ? "35%" : "0%", rotate: isVideo ? 35 : 0, opacity: isVideo ? 0 : 1 }}
+          animate={{
+            x: isVideo ? "35%" : "0%",
+            rotate: isVideo ? 35 : 0,
+            opacity: isVideo ? 0 : 1,
+          }}
           transition={{ duration: t(0.9), ease }}
         >
-          <motion.div initial={{ opacity: 0, rotate: 25, scale: 0.9 }} animate={{ opacity: 1, rotate: 0, scale: 1 }} transition={{ duration: t(1.4), delay: t(0.2), ease }}>
-            <Image src="/images/deco/cup-top.webp" alt="" width={900} height={858} priority className="h-auto w-full drop-shadow-[0_30px_30px_rgb(59_46_37/0.35)]" />
+          <motion.div
+            initial={{ opacity: 0, rotate: 25, scale: 0.9 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            transition={{ duration: t(1.4), delay: t(0.2), ease }}
+          >
+            <Image
+              src="/images/deco/cup-top.webp"
+              alt=""
+              width={900}
+              height={858}
+              priority
+              className="h-auto w-full drop-shadow-[0_30px_30px_rgb(59_46_37/0.35)]"
+            />
           </motion.div>
         </motion.div>
 
@@ -332,7 +382,9 @@ export function HeroSlider() {
           <div className="flex max-w-2xl flex-col items-center">
             {/* Stacked title: "a break with coffee", then the word repeated, each line lighter. */}
             <h1 className="font-display text-[34px] leading-[1.02] text-ink uppercase sm:text-5xl md:text-6xl">
-              <span className="sr-only">Phjn Coffee: một chút nghỉ với cà phê</span>
+              <span className="sr-only">
+                Phjn Coffee: một chút nghỉ với cà phê
+              </span>
               <span aria-hidden className="flex flex-col items-center">
                 {[
                   ["Một chút nghỉ", "font-medium"],
@@ -346,7 +398,11 @@ export function HeroSlider() {
                     className={`block whitespace-nowrap ${cls}`}
                     initial={{ opacity: 0, x: i % 2 ? 30 : -30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: t(0.9), delay: t(0.1 + i * 0.1), ease }}
+                    transition={{
+                      duration: t(0.9),
+                      delay: t(0.1 + i * 0.1),
+                      ease,
+                    }}
                   >
                     {text}
                   </motion.span>
@@ -359,8 +415,8 @@ export function HeroSlider() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: t(1), delay: t(0.6), ease }}
             >
-              Cà phê rang mộc, trà ủ trong ngày và bánh nướng mỗi sáng. Một góc Sài Gòn chậm rãi, để bạn tự chỉnh từng ly cho đúng khẩu
-              vị.
+              Cà phê rang mộc, trà ủ trong ngày và bánh nướng mỗi sáng. Một góc
+              Sài Gòn chậm rãi, để bạn tự chỉnh từng ly cho đúng khẩu vị.
             </motion.p>
             <motion.button
               type="button"
@@ -370,7 +426,9 @@ export function HeroSlider() {
               animate={{ opacity: 1 }}
               transition={{ duration: t(1), delay: t(1.1) }}
             >
-              <span className="text-[11px] font-semibold tracking-[0.35em] text-ink-soft uppercase">Cuộn để khám phá</span>
+              <span className="text-[11px] font-semibold tracking-[0.35em] text-ink-soft uppercase">
+                Cuộn để khám phá
+              </span>
               <span aria-hidden className="h-10 w-px overflow-hidden bg-ink/20">
                 <span className="scroll-cue block h-1/2 w-full bg-ink/70" />
               </span>
@@ -384,7 +442,14 @@ export function HeroSlider() {
 
 function Chevron({ dir }: { dir: "left" | "right" }) {
   return (
-    <svg viewBox="0 0 28 56" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-10 w-5 md:h-14 md:w-7" aria-hidden>
+    <svg
+      viewBox="0 0 28 56"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      className="h-10 w-5 md:h-14 md:w-7"
+      aria-hidden
+    >
       <path d={dir === "left" ? "M24 4 4 28l20 24" : "M4 4l20 24L4 52"} />
     </svg>
   );
