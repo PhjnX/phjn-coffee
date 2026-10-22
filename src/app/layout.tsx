@@ -1,31 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, Bricolage_Grotesque, Playfair_Display } from "next/font/google";
+import { Be_Vietnam_Pro, Open_Sans, Trirong } from "next/font/google";
 import { MotionProvider } from "@/components/MotionProvider";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-/** Body text: a Vietnamese sans that stays crisp at small sizes on phones. */
-const body = Be_Vietnam_Pro({
+const body = Open_Sans({
   subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "600"],
   variable: "--font-body",
   display: "swap",
 });
 
-/** Headings: a bold grotesque with a bit of character. */
-const heading = Bricolage_Grotesque({
+const heading = Trirong({
   subsets: ["latin", "vietnamese"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["400", "500", "700"],
   variable: "--font-heading",
-  display: "swap",
-});
-
-/** Accent serif: the logo and the one italic word in a heading. */
-const accent = Playfair_Display({
-  subsets: ["latin", "vietnamese"],
-  weight: ["500", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-accent",
   display: "swap",
 });
 
@@ -53,13 +42,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f4ebdf",
+  themeColor: "#e9dcc8",
 };
 
 /** Fonts and motion settings shared by the shop (app/(site)) and the admin (app/admin). */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${body.variable} ${heading.variable} ${accent.variable} ${admin.variable}`}>
+    <html lang="vi" className={`${body.variable} ${heading.variable} ${admin.variable}`}>
       <body>
         <MotionProvider>{children}</MotionProvider>
       </body>

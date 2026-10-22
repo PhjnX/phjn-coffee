@@ -128,7 +128,7 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
               aria-selected={active === category.id}
               onClick={() => jumpTo(category.id)}
               className={`shrink-0 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors ${
-                active === category.id ? "border-caramel bg-caramel font-semibold text-white" : "border-line bg-card text-ink"
+                active === category.id ? "border-ink bg-ink text-cream" : "border-line bg-card text-ink-soft"
               }`}
             >
               {category.name}
@@ -262,7 +262,7 @@ function MenuItem({ product: p, onSelect, canOrder }: { product: Product; onSele
       />
       <span className="flex min-w-0 flex-1 flex-col py-0.5">
         <span className="flex items-start gap-2">
-          <span className="font-display text-lg leading-snug font-semibold">{p.name}</span>
+          <span className="font-display text-lg leading-snug">{p.name}</span>
           {p.badge && !soldOut && (
             <span className="mt-1 shrink-0 rounded-full bg-paper-2 px-2 py-0.5 text-[10px] font-semibold text-caramel-dark">{badgeText[p.badge]}</span>
           )}
@@ -273,7 +273,7 @@ function MenuItem({ product: p, onSelect, canOrder }: { product: Product; onSele
           {!soldOut && canOrder && (
             <span
               aria-hidden
-              className="grid size-9 place-items-center rounded-full bg-caramel text-lg leading-none text-white transition-colors group-hover:bg-caramel-dark"
+              className="grid size-9 place-items-center rounded-full bg-ink text-lg leading-none text-cream transition-colors group-hover:bg-caramel-dark"
             >
               +
             </span>

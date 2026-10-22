@@ -305,7 +305,7 @@ export function CheckoutView() {
               type="submit"
               form="checkout-form"
               disabled={pending}
-              className="mt-5 hidden h-12 w-full items-center justify-center rounded-full bg-caramel text-[15px] font-semibold text-white transition-colors hover:bg-caramel-dark disabled:opacity-60 lg:flex"
+              className="mt-5 hidden h-12 w-full items-center justify-center rounded-full bg-ink text-[15px] font-semibold text-cream transition-colors hover:bg-caramel-dark disabled:opacity-60 lg:flex"
             >
               {submitLabel}
             </button>
@@ -323,7 +323,7 @@ export function CheckoutView() {
           type="submit"
           form="checkout-form"
           disabled={pending}
-          className="flex h-12 w-full items-center justify-center rounded-full bg-caramel text-[15px] font-semibold text-white transition-colors disabled:opacity-60"
+          className="flex h-12 w-full items-center justify-center rounded-full bg-ink text-[15px] font-semibold text-cream transition-colors disabled:opacity-60"
         >
           {submitLabel}
         </button>

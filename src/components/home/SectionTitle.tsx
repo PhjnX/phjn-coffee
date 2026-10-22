@@ -1,12 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Fragment } from "react";
+import { BeansIcon } from "../brand/Logo";
 
-/**
- * Small orange kicker over a bold heading, fading up when it enters the view. Words wrapped in
- * *asterisks* in `title` are set in the italic accent serif, e.g. "Món khách *hay quay lại*".
- */
+/** Script kicker, spaced serif title and a small phin divider, fading up when it enters the view. */
 export function SectionTitle({
   script,
   title,
@@ -27,15 +24,17 @@ export function SectionTitle({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <p className={`text-[13px] font-semibold tracking-[0.18em] uppercase ${light ? "text-[#f0a46f]" : "text-caramel-dark"}`}>{script}</p>
-      <h2 className={`mt-3 font-display text-[40px] leading-[1.05] md:text-6xl ${light ? "text-cream" : "text-ink"}`}>
-        <Emphasis text={title} />
+      <p className={`text-xs font-semibold tracking-[0.3em] uppercase ${light ? "text-[#e0c39f]" : "text-caramel"}`}>{script}</p>
+      <h2
+        className={`mt-3 font-display text-4xl leading-tight md:text-5xl ${light ? "text-white" : "text-ink"}`}
+      >
+        {title}
       </h2>
+      <div className={`mt-5 flex items-center gap-3 ${center ? "justify-center" : ""}`} aria-hidden>
+        <span className={`h-px w-16 ${light ? "bg-white/40" : "bg-caramel/50"}`} />
+        <BeansIcon className={`h-5 w-6 ${light ? "text-[#e0c39f]" : "text-caramel"}`} />
+        <span className={`h-px w-16 ${light ? "bg-white/40" : "bg-caramel/50"}`} />
+      </div>
     </motion.div>
   );
-}
-
-/** Renders "plain *accent* plain" with the starred part in <em>. */
-export function Emphasis({ text }: { text: string }) {
-  return text.split("*").map((part, i) => (i % 2 ? <em key={i}>{part}</em> : <Fragment key={i}>{part}</Fragment>));
 }

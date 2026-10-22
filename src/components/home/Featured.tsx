@@ -25,7 +25,7 @@ export function Featured({ products }: { products: Product[] }) {
   return (
     <section id="yeu-thich" ref={ref} className="scroll-mt-16 overflow-hidden py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6 md:px-10">
-        <SectionTitle script="Được yêu thích" title="Món khách *hay quay lại*" />
+        <SectionTitle script="Được yêu thích" title="Món khách hay quay lại" />
       </div>
       <div className="mt-14 space-y-10">
         <Row products={products.slice(0, half)} x={rowA} />
@@ -34,9 +34,9 @@ export function Featured({ products }: { products: Product[] }) {
       <div className="mt-14 text-center">
         <Link
           href="/menu"
-          className="inline-flex items-center gap-2 rounded-full bg-ink px-8 py-4 text-[15px] font-semibold text-cream transition-colors hover:bg-caramel"
+          className="inline-block border border-ink/40 px-9 py-3.5 text-xs font-semibold tracking-[0.25em] uppercase transition-colors hover:border-caramel hover:bg-caramel hover:text-cream"
         >
-          Xem toàn bộ thực đơn <span aria-hidden>→</span>
+          Xem toàn bộ thực đơn
         </Link>
       </div>
     </section>
@@ -55,17 +55,17 @@ function Row({ products, x }: { products: Product[]; x: MotionValue<string> }) {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.8, delay: (i % 6) * 0.06, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Link href={`/menu?mon=${p.slug}`} className="group block rounded-[28px] bg-card p-3 pb-5 text-center shadow-[0_18px_40px_-28px_rgb(35_22_14/0.5)]">
+          <Link href={`/menu?mon=${p.slug}`} className="group block text-center">
             <ProductPhoto
               item={p}
-              className="aspect-[4/5] rounded-t-full rounded-b-[18px] transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              className="aspect-[4/5] rounded-t-full shadow-[0_24px_40px_-28px_rgb(59_46_37/0.6)] transition-transform duration-700 ease-out group-hover:-translate-y-1.5"
               sizes="(min-width: 768px) 240px, 190px"
             />
-            {p.badge && <p className="mt-4 text-[11px] font-semibold tracking-[0.16em] text-caramel-dark uppercase">{badgeText[p.badge]}</p>}
+            {p.badge && <p className="mt-4 text-[10px] font-semibold tracking-[0.25em] text-caramel uppercase">{badgeText[p.badge]}</p>}
             <p className={`${p.badge ? "mt-1" : "mt-4"} font-display text-xl transition-colors group-hover:text-caramel-dark`}>
               {p.name}
             </p>
-            <p className="mt-1.5 inline-block rounded-full bg-paper-2 px-3 py-1 text-sm font-semibold">{formatVND(p.basePrice)}</p>
+            <p className="mt-1 text-sm text-ink-soft">{formatVND(p.basePrice)}</p>
           </Link>
         </motion.li>
       ))}

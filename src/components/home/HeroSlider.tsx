@@ -252,13 +252,13 @@ export function HeroSlider() {
               transition={{ duration: t(0.7), ease }}
               className="flex max-w-3xl flex-col items-center"
             >
-              <h2 className="font-display text-[42px] leading-[1.05] md:text-7xl">{slide.title}</h2>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/90 md:text-lg">{slide.text}</p>
+              <h2 className="font-display text-4xl leading-tight md:text-6xl">{slide.title}</h2>
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85 md:text-lg">{slide.text}</p>
               <Link
                 href={slide.cta.href}
-                className="mt-9 inline-flex items-center gap-2 rounded-full bg-caramel px-8 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-caramel-dark"
+                className="mt-9 border border-white/70 px-8 py-3.5 text-xs font-semibold tracking-[0.25em] uppercase transition-colors hover:border-caramel hover:bg-caramel"
               >
-                {slide.cta.label} <span aria-hidden>→</span>
+                {slide.cta.label}
               </Link>
             </motion.div>
           </AnimatePresence>
@@ -337,7 +337,7 @@ export function HeroSlider() {
               animate={{ opacity: 1, y: 0, letterSpacing: "0.02em" }}
               transition={{ duration: t(1.2), ease }}
             >
-              Phjn <em>Coffee</em>
+              Phjn Coffee
             </motion.h1>
             <motion.div
               className="mt-6 flex items-center gap-4"

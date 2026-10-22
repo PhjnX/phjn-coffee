@@ -10,17 +10,17 @@ import { SectionTitle } from "./SectionTitle";
 
 const PER_TAB = 8;
 
-/** Café menu board on a dark espresso band: category pills, two columns of round photos, names, dotted leaders and prices. */
+/** Classic café menu board: category tabs, two columns of round photos, names, dotted leaders and prices. */
 export function MenuList({ categories, products }: { categories: Category[]; products: Product[] }) {
   const [active, setActive] = useState(categories[0]?.id ?? "");
   const items = products.filter((p) => p.categoryId === active).slice(0, PER_TAB);
 
   return (
-    <section id="thuc-don" className="scroll-mt-16 bg-espresso py-24 text-cream md:py-32">
+    <section id="thuc-don" className="scroll-mt-16 bg-paper-2 py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6 md:px-10">
-        <SectionTitle script="Hôm nay uống gì?" title="Thực đơn *mỗi ngày*" light />
+        <SectionTitle script="Hôm nay uống gì?" title="Thực đơn" />
 
-        <div role="tablist" aria-label="Danh mục" className="no-scrollbar -mx-6 mt-10 flex justify-start gap-2 overflow-x-auto px-6 md:mx-0 md:justify-center md:px-0">
+        <div role="tablist" aria-label="Danh mục" className="no-scrollbar mt-12 flex justify-start gap-8 overflow-x-auto md:justify-center">
           {categories.map((c) => (
             <button
               key={c.id}
@@ -28,12 +28,12 @@ export function MenuList({ categories, products }: { categories: Category[]; pro
               role="tab"
               aria-selected={active === c.id}
               onClick={() => setActive(c.id)}
-              className={`relative shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold whitespace-nowrap transition-colors ${
-                active === c.id ? "text-white" : "text-cream/80 ring-1 ring-cream/25 hover:text-cream"
+              className={`relative shrink-0 pb-2 text-[13px] font-medium tracking-[0.16em] whitespace-nowrap uppercase transition-colors ${
+                active === c.id ? "text-caramel" : "text-ink-soft hover:text-ink"
               }`}
             >
-              {active === c.id && <motion.span layoutId="menu-tab" className="absolute inset-0 rounded-full bg-caramel" />}
-              <span className="relative">{c.name}</span>
+              {c.name}
+              {active === c.id && <motion.span layoutId="menu-tab" className="absolute inset-x-0 -bottom-px h-px bg-caramel" />}
             </button>
           ))}
         </div>
@@ -55,18 +55,18 @@ export function MenuList({ categories, products }: { categories: Category[]; pro
                 <Link href={`/menu?mon=${p.slug}`} className="group flex items-center gap-5">
                   <ProductPhoto
                     item={p}
-                    className="size-20 shrink-0 rounded-full ring-2 ring-cream/15 transition-transform duration-500 group-hover:scale-105 md:size-24"
+                    className="size-20 shrink-0 rounded-full transition-transform duration-500 group-hover:scale-105 md:size-24"
                     sizes="96px"
                   />
                   <span className="min-w-0 flex-1">
                     <span className="flex items-baseline">
-                      <span className="font-display text-lg transition-colors group-hover:text-[#f0a46f] md:text-xl">
+                      <span className="font-display text-lg font-medium transition-colors group-hover:text-caramel md:text-xl">
                         {p.name}
                       </span>
                       <span aria-hidden className="leader" />
-                      <span className="font-display text-lg text-[#f0a46f] md:text-xl">{formatVND(p.basePrice)}</span>
+                      <span className="font-display text-lg font-medium text-caramel md:text-xl">{formatVND(p.basePrice)}</span>
                     </span>
-                    <span className="mt-1.5 line-clamp-2 block text-sm text-cream/75">
+                    <span className="mt-1.5 line-clamp-2 block text-sm text-ink-soft">
                       {p.isAvailable ? p.description : "Tạm hết hôm nay"}
                     </span>
                   </span>
@@ -79,9 +79,9 @@ export function MenuList({ categories, products }: { categories: Category[]; pro
         <div className="mt-16 text-center">
           <Link
             href={`/menu#cat-${active}`}
-            className="inline-flex items-center gap-2 rounded-full bg-caramel px-8 py-4 text-[15px] font-semibold text-white transition-colors hover:bg-caramel-dark"
+            className="inline-block rounded-full border border-ink/40 px-9 py-3.5 text-sm font-medium tracking-[0.16em] uppercase transition-colors hover:border-caramel hover:bg-caramel hover:text-cream"
           >
-            Xem toàn bộ thực đơn <span aria-hidden>→</span>
+            Xem toàn bộ thực đơn
           </Link>
         </div>
       </div>
