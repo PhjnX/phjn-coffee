@@ -7,28 +7,29 @@ import { useEffect, useRef, useState } from "react";
 import { useHeroScene } from "@/lib/hero-scene";
 import { BeansIcon } from "../brand/Logo";
 
+/** `video` is a base path: "-720.mp4" (wide screens) or "-480.mp4" (phones) is added. */
 type Slide = { video: string; poster: string; kicker: string; title: string; text: string; cta: { href: string; label: string } };
 
 const slides: Slide[] = [
   {
-    video: "/videos/latte-art.mp4",
-    poster: "/videos/latte-art.jpg",
+    video: "/videos/latte-art",
+    poster: "/videos/latte-art.webp",
     kicker: "Cà phê",
     title: "Pha bằng tay, từng ly một",
     text: "Arabica Cầu Đất, sữa tươi đánh mịn, latte art vẽ ngay trước mặt bạn.",
     cta: { href: "/menu#cat-ca-phe", label: "Xem cà phê" },
   },
   {
-    video: "/videos/tea.mp4",
-    poster: "/videos/tea.jpg",
+    video: "/videos/tea",
+    poster: "/videos/tea.webp",
     kicker: "Trà",
     title: "Trà ủ mới mỗi sáng",
     text: "Ô long, hồng trà, trà xanh nhài. Thêm trái cây tươi hoặc sữa, tuỳ bạn.",
     cta: { href: "/menu#cat-tra", label: "Xem trà" },
   },
   {
-    video: "/videos/bakery.mp4",
-    poster: "/videos/bakery.jpg",
+    video: "/videos/bakery",
+    poster: "/videos/bakery.webp",
     kicker: "Bánh",
     title: "Ra lò lúc 6 giờ sáng",
     text: "Croissant bơ Pháp, bánh ngàn lớp, tiramisu và cookie nướng tại bếp của quán.",
@@ -156,17 +157,43 @@ export function HeroSlider() {
     return () => window.clearTimeout(timer);
   }, [index, reduce, isVideo]);
 
+  // Which file size to stream: 480p on phones, 720p elsewhere, none (posters only) when the visitor
+  // asked to save data, the connection is 2G, or they prefer reduced motion.
+  const [quality, setQuality] = useState<"480" | "720" | null>(null);
+  // Slides whose video has been allowed to download. Nothing loads until the page itself has.
+  const [loaded, setLoaded] = useState<Set<number>>(() => new Set());
+
+  useEffect(() => {
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (reduce || conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? "")) return setQuality(null);
+    setQuality(window.matchMedia("(max-width: 767px)").matches ? "480" : "720");
+  }, [reduce]);
+
+  useEffect(() => {
+    if (!quality) return;
+    const start = () => setLoaded((s) => new Set(s).add(0));
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+    return () => window.removeEventListener("load", start);
+  }, [quality]);
+
+  // The current slide and the next one may load; the rest wait their turn.
+  useEffect(() => {
+    if (!quality || !isVideo) return;
+    setLoaded((s) => (s.has(index) && s.has((index + 1) % slides.length) ? s : new Set(s).add(index).add((index + 1) % slides.length)));
+  }, [index, isVideo, quality]);
+
   useEffect(() => {
     videos.current.forEach((v, i) => {
       if (!v) return;
-      if (i === index && isVideo && !reduce) {
+      if (i === index && isVideo && !reduce && loaded.has(i)) {
         v.currentTime = 0;
         v.play().catch(() => {});
       } else {
         v.pause();
       }
     });
-  }, [index, reduce, isVideo]);
+  }, [index, reduce, isVideo, loaded]);
 
   const slide = slides[index];
   const go = (dir: 1 | -1) => setIndex((i) => (i + dir + slides.length) % slides.length);
@@ -188,12 +215,12 @@ export function HeroSlider() {
             }}
             aria-hidden
             className="absolute inset-0 size-full object-cover"
-            src={s.video}
+            src={quality && loaded.has(i) ? `${s.video}-${quality}.mp4` : undefined}
             poster={s.poster}
             muted
             loop
             playsInline
-            preload={i === 0 ? "auto" : "metadata"}
+            preload={quality && loaded.has(i) ? "auto" : "none"}
             initial={false}
             animate={{ opacity: i === index ? 1 : 0 }}
             transition={{ duration: t(1.2) }}
