@@ -380,34 +380,31 @@ export function HeroSlider() {
           transition={{ duration: t(0.6), ease, delay: isVideo ? 0 : t(0.5) }}
         >
           <div className="flex max-w-2xl flex-col items-center">
-            {/* Stacked title: "a break with coffee", then the word repeated, each line lighter. */}
-            <h1 className="font-display text-[32px] leading-[1.2] text-ink uppercase sm:text-5xl md:text-6xl">
-              <span className="sr-only">
-                Phjn Coffee: một chút nghỉ với cà phê
-              </span>
-              <span aria-hidden className="flex flex-col items-center">
-                {[
-                  ["Một chút nghỉ", "font-medium"],
-                  ["với cà phê", "font-bold"],
-                  ["cà phê", "font-bold text-ink/70"],
-                  ["cà phê", "font-bold text-ink/45"],
-                  ["cà phê", "font-semibold text-ink/25"],
-                ].map(([text, cls], i) => (
-                  <motion.span
-                    key={i}
-                    className={`block whitespace-nowrap ${cls}`}
-                    initial={{ opacity: 0, x: i % 2 ? 30 : -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{
-                      duration: t(0.9),
-                      delay: t(0.1 + i * 0.1),
-                      ease,
-                    }}
-                  >
-                    {text}
-                  </motion.span>
-                ))}
-              </span>
+            <motion.p
+              className="text-xs font-semibold tracking-[0.3em] text-caramel-dark uppercase"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: t(0.8) }}
+            >
+              Phjn Coffee · Sài Gòn
+            </motion.p>
+            <h1 className="mt-4 font-display text-[44px] leading-[1.1] text-ink sm:text-6xl md:text-7xl">
+              {[
+                <>Một chút nghỉ</>,
+                <>
+                  với <em className="font-medium text-caramel-dark">cà phê</em>
+                </>,
+              ].map((line, i) => (
+                <motion.span
+                  key={i}
+                  className="block whitespace-nowrap"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: t(0.9), delay: t(0.15 + i * 0.15), ease }}
+                >
+                  {line}
+                </motion.span>
+              ))}
             </h1>
             <motion.p
               className="mt-6 max-w-lg text-base leading-relaxed text-ink-soft md:text-lg"

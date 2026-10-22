@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 /*
- * Phjn Coffee palette, three colours: warm light grey pages and white cards, very dark brown text
- * and dark bands, latte-tan accent. "kraft" is a grey paper with fine fibres.
+ * Phjn Coffee palette, three colours: espresso brown for text and dark bands, warm cream for
+ * pages and cards, latte tan as the one accent. "kraft" is a cream paper with fine fibres.
  */
 :root {
-  --paper: #f1efec;
-  --paper-2: #e6e2dd;
-  --kraft: #e8e5e1;
-  --card: #ffffff;
+  --paper: #f6efe6;
+  --paper-2: #ece2d4;
+  --kraft: #efe6d9;
+  --card: #fffcf8;
   --ink: #2a1f19;
   --ink-soft: #5b4d44; /* about 7:1 on paper, readable on a phone outdoors */
-  --line: rgb(58 31 22 / 0.13);
-  --caramel: #d39a62;
-  --caramel-dark: #9a6331;
+  --line: rgb(42 31 25 / 0.12);
+  --caramel: #c8956a;
+  --caramel-dark: #8f5f36;
   --matcha: #7a8a55;
   --cream: #fffaf3;
-  --espresso: #3a1f16;
+  --espresso: #2a1f19;
 }
 
 @theme inline {

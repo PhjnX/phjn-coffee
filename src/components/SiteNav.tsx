@@ -16,7 +16,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const links = (pathname: string) => [
   { href: "/", label: "Trang chủ", active: pathname === "/" },
   { href: "/menu", label: "Thực đơn", active: pathname.startsWith("/menu") },
-  { href: "/#cau-chuyen", label: "Quy trình", active: false },
+  { href: "/#cau-chuyen", label: "Câu chuyện", active: false },
   { href: "/#cua-hang", label: "Cửa hàng", active: false },
 ];
 

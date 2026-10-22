@@ -4,7 +4,7 @@ import { Logo } from "./brand/Logo";
 const pages = [
   ["/", "Trang chủ"],
   ["/menu", "Thực đơn"],
-  ["/#cau-chuyen", "Quy trình"],
+  ["/#cau-chuyen", "Câu chuyện"],
   ["/#cua-hang", "Cửa hàng"],
 ] as const;
 
