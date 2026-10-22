@@ -69,7 +69,7 @@ export function Mosaic() {
             <InfoTile>
               {cell.kind === "hours" && (
                 <>
-                  <TileTitle>Nhận đơn online</TileTitle>
+                  <TileTitle>Giờ mở cửa</TileTitle>
                   <dl className="mt-5 space-y-3 text-sm text-ink-soft">
                     {[
                       ["Thứ 2 – Thứ 6", "7:00 – 22:00"],

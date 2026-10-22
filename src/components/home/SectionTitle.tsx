@@ -24,7 +24,7 @@ export function SectionTitle({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <p className={`text-xs font-semibold tracking-[0.3em] uppercase ${light ? "text-[#e0c39f]" : "text-caramel"}`}>{script}</p>
+      <p className={`text-xs font-semibold tracking-[0.3em] uppercase ${light ? "text-[#e0c39f]" : "text-caramel-dark"}`}>{script}</p>
       <h2
         className={`mt-3 font-display text-4xl leading-tight md:text-5xl ${light ? "text-white" : "text-ink"}`}
       >

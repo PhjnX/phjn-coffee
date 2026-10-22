@@ -7,7 +7,7 @@
   --kraft: #e9dcc8;
   --card: #fbf7f1;
   --ink: #3b2e25;
-  --ink-soft: #7d6d60;
+  --ink-soft: #5a4b40; /* dark enough to read on a phone outdoors (about 7:1 on paper) */
   --line: rgb(59 46 37 / 0.13);
   --caramel: #b08155;
   --caramel-dark: #8c6239;
@@ -74,6 +74,10 @@ body {
 
 /* In the base layer so utilities like outline-none (used on focusable dialogs) still win. */
 @layer base {
+  /* Trirong is thin at 400; one step heavier reads better on small screens. A weight utility still wins. */
+  .font-display {
+    font-weight: 500;
+  }
   :focus-visible {
     outline: 2px solid var(--caramel);
     outline-offset: 2px;
