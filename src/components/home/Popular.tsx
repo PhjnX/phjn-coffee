@@ -50,7 +50,7 @@ export function Popular({ products }: { products: Product[] }) {
     <section id="yeu-thich" className="scroll-mt-16 bg-card py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <Reveal>
-          <h2 className="text-center font-display text-2xl font-extrabold tracking-[0.04em] uppercase md:text-[32px]">
+          <h2 className="text-center font-display text-[30px] md:text-[40px]">
             Món được yêu thích
           </h2>
         </Reveal>

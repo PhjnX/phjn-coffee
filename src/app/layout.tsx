@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, Montserrat, Trirong } from "next/font/google";
+import { Be_Vietnam_Pro, Lora, Trirong } from "next/font/google";
 import { MotionProvider } from "@/components/MotionProvider";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -12,10 +12,10 @@ const body = Be_Vietnam_Pro({
   display: "swap",
 });
 
-/** Headings: a bold geometric sans, set in capitals for section titles. */
-const heading = Montserrat({
+/** Headings: Lora, a warm serif that reads well in Vietnamese. */
+const heading = Lora({
   subsets: ["latin", "vietnamese"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["500", "600", "700"],
   variable: "--font-heading",
   display: "swap",
 });

@@ -31,7 +31,7 @@ export function Process() {
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <div className="grid gap-5 md:grid-cols-2 md:items-end md:gap-16">
           <Reveal from="left">
-            <h2 className="font-display text-[28px] leading-tight font-extrabold md:text-4xl">
+            <h2 className="font-display text-[30px] leading-tight md:text-[40px]">
               Hương vị ngon
               <br />
               từ cả quy trình

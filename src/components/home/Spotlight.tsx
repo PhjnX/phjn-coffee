@@ -77,9 +77,9 @@ export function Spotlight({
                 role="tab"
                 aria-selected={cat === c.id}
                 onClick={() => pick(c.id)}
-                className={`relative px-1 py-3 font-display text-[13px] tracking-[0.08em] whitespace-nowrap uppercase transition-colors md:text-sm ${
+                className={`relative px-1 py-3 text-[13px] tracking-[0.08em] whitespace-nowrap uppercase transition-colors md:text-sm ${
                   cat === c.id
-                    ? "font-extrabold text-ink"
+                    ? "font-bold text-ink"
                     : "font-semibold text-ink-soft hover:text-ink"
                 }`}
               >
@@ -253,7 +253,7 @@ function Showcase({
         <p className="text-xs font-semibold tracking-[0.2em] text-caramel-dark uppercase">
           {categoryName}
         </p>
-        <h2 className="mt-2 font-display text-[28px] leading-tight font-extrabold uppercase md:text-4xl">
+        <h2 className="mt-2 font-display text-[32px] leading-tight md:text-[44px]">
           {product.name}
         </h2>
         <div className="mt-3 flex items-center justify-center gap-4 md:justify-start">
@@ -275,7 +275,7 @@ function Showcase({
             key={unit}
             initial={{ y: 6, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="font-display text-xl font-extrabold tabular-nums"
+            className="text-xl font-bold tabular-nums"
           >
             {formatVND(unit)}
           </motion.span>

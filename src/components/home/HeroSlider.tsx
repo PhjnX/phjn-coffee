@@ -381,15 +381,15 @@ export function HeroSlider() {
         >
           <div className="flex max-w-2xl flex-col items-center">
             {/* Stacked title: "a break with coffee", then the word repeated, each line lighter. */}
-            <h1 className="font-display text-[34px] leading-[1.02] text-ink uppercase sm:text-5xl md:text-6xl">
+            <h1 className="font-display text-[32px] leading-[1.2] text-ink uppercase sm:text-5xl md:text-6xl">
               <span className="sr-only">
                 Phjn Coffee: một chút nghỉ với cà phê
               </span>
               <span aria-hidden className="flex flex-col items-center">
                 {[
                   ["Một chút nghỉ", "font-medium"],
-                  ["với cà phê", "font-extrabold"],
-                  ["cà phê", "font-extrabold text-ink/70"],
+                  ["với cà phê", "font-bold"],
+                  ["cà phê", "font-bold text-ink/70"],
                   ["cà phê", "font-bold text-ink/45"],
                   ["cà phê", "font-semibold text-ink/25"],
                 ].map(([text, cls], i) => (

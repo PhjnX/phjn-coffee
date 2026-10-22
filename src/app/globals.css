@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Phjn Coffee palette, three colours: warm light grey pages and white cards, roasted-brown text
+ * Phjn Coffee palette, three colours: warm light grey pages and white cards, very dark brown text
  * and dark bands, latte-tan accent. "kraft" is a grey paper with fine fibres.
  */
 :root {
@@ -9,8 +9,8 @@
   --paper-2: #e6e2dd;
   --kraft: #e8e5e1;
   --card: #ffffff;
-  --ink: #3a1f16;
-  --ink-soft: #5e4c43; /* about 7:1 on paper, readable on a phone outdoors */
+  --ink: #2a1f19;
+  --ink-soft: #5b4d44; /* about 7:1 on paper, readable on a phone outdoors */
   --line: rgb(58 31 22 / 0.13);
   --caramel: #d39a62;
   --caramel-dark: #9a6331;
@@ -77,10 +77,9 @@ body {
 
 /* In the base layer so utilities like outline-none (used on focusable dialogs) still win. */
 @layer base {
-  /* Headings are bold; a weight utility on the element still wins. */
+  /* Headings are semibold Lora; a weight utility on the element still wins. */
   .font-display {
-    font-weight: 700;
-    letter-spacing: -0.01em;
+    font-weight: 600;
   }
   :focus-visible {
     outline: 2px solid var(--caramel);

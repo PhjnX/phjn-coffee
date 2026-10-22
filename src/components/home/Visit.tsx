@@ -22,7 +22,7 @@ export function Visit() {
           <span className="inline-block rounded-full border border-ink/30 px-3 py-1 text-[11px] font-bold tracking-[0.12em] uppercase">
             Sắp khai trương
           </span>
-          <h2 className="mt-4 font-display text-[28px] leading-tight font-extrabold md:text-4xl">
+          <h2 className="mt-4 font-display text-[30px] leading-tight md:text-[40px]">
             Ghé Phjn, gọi món
             <br />
             ngay tại bàn
