@@ -8,6 +8,7 @@ import type { Menu, Product } from "@/lib/types";
 import { useMounted } from "@/lib/use-mounted";
 import { ProductPhoto } from "./ProductImage";
 import { ProductSheet } from "./ProductSheet";
+import { Reveal } from "./home/Reveal";
 
 const badgeText = { bestseller: "Bán chạy", new: "Mới", signature: "Đặc biệt" } as const;
 
@@ -16,10 +17,10 @@ const offset = () => (window.matchMedia("(min-width: 1024px)").matches ? 150 : 1
 
 /**
  * Menu page, laid out like a printed café menu board: a sticky bar with search and category chips,
- * then each category as a list of lines (round photo, name, dotted leader, price, note), flowing
- * into two columns on wide screens. The active category follows the scroll; tapping one scrolls
- * there smoothly. The chip row is
- * scrolled sideways on its own, never the page, so the scroll never jumps.
+ * then each category as a list of lines (round photo, name, dotted leader, price, note), two
+ * columns of lines on wide screens. Lines slide in as they scroll into view. The active category
+ * follows the scroll; tapping one scrolls there smoothly. The chip row is scrolled sideways on
+ * its own, never the page, so the scroll never jumps.
  */
 export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProductSlug?: string }) {
   const [query, setQuery] = useState("");
@@ -52,19 +53,32 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
     [menu, q],
   );
 
-  // Scroll spy: the section crossing a line just under the sticky bars is the active one.
+  // Scroll spy: the active category is the last one whose heading has passed a line just under the
+  // sticky bars (the last one outright once the page is scrolled to the bottom). Measured from the
+  // page position on each frame, so a fast flick cannot skip ahead the way intersection events could.
   useEffect(() => {
-    const els = sections.map((s) => document.getElementById(`cat-${s.category.id}`)).filter((el): el is HTMLElement => el !== null);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (spyPaused.current) return;
-        const hit = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-        if (hit) setActive(hit.target.id.replace("cat-", ""));
-      },
-      { rootMargin: "-200px 0px -55% 0px" },
-    );
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      if (spyPaused.current) return;
+      const els = sections.map((s) => document.getElementById(`cat-${s.category.id}`)).filter((el): el is HTMLElement => el !== null);
+      if (els.length === 0) return;
+      const line = offset() + 24;
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      let current = els[0];
+      for (const el of els) if (el.getBoundingClientRect().top <= line) current = el;
+      if (atBottom) current = els[els.length - 1];
+      setActive(current.id.replace("cat-", ""));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, [sections]);
 
   // Centre the active chip by scrolling the chip row itself (scrollIntoView would also move the page).
@@ -79,9 +93,21 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
     const el = document.getElementById(`cat-${id}`);
     if (!el) return;
     setActive(id);
+    // Hold the spy until the smooth scroll has really stopped (no scroll events for 150ms), however
+    // long the trip takes, so the chips don't flick through every category on the way.
     spyPaused.current = true;
+    let idle = 0;
+    const settle = () => {
+      window.clearTimeout(idle);
+      idle = window.setTimeout(done, 150);
+    };
+    const done = () => {
+      window.removeEventListener("scroll", settle);
+      spyPaused.current = false;
+    };
+    window.addEventListener("scroll", settle, { passive: true });
+    settle();
     window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset(), behavior: "smooth" });
-    window.setTimeout(() => (spyPaused.current = false), 900);
   }, []);
 
   // Arriving with #cat-xxx (from the sidebar or the home page): land under the sticky bars.
@@ -134,7 +160,7 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
                 data-cat={category.id}
                 aria-selected={active === category.id}
                 onClick={() => jumpTo(category.id)}
-                className={`shrink-0 rounded-full border px-4 py-2 font-condensed text-[15px] tracking-[0.04em] whitespace-nowrap uppercase transition-colors ${
+                className={`shrink-0 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors ${
                   active === category.id ? "border-ink bg-ink text-cream" : "border-line bg-card text-ink-soft hover:text-ink"
                 }`}
               >
@@ -166,22 +192,24 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
           </div>
         )}
 
-        {/* Menu board: categories flow into two columns on wide screens, like a printed café menu */}
-        <div className="md:columns-2 md:gap-16">
+        {/* Menu board: one category after another, its lines in two columns on wide screens.
+            Categories stay in reading order so the scroll spy always matches what is on screen. */}
+        <div>
           {sections.map(({ category, products }) => (
-            <section
-              key={category.id}
-              id={`cat-${category.id}`}
-              aria-labelledby={`h-${category.id}`}
-              className="mb-12 break-inside-avoid scroll-mt-44 md:mb-14 lg:scroll-mt-36"
-            >
-              <h2 id={`h-${category.id}`} className="font-condensed text-[30px] leading-none font-medium tracking-[0.01em] uppercase md:text-[36px]">
-                {category.name}
-              </h2>
-              <ul className="mt-5 space-y-1">
-                {products.map((p) => (
+            <section key={category.id} id={`cat-${category.id}`} aria-labelledby={`h-${category.id}`} className="mb-12 md:mb-16">
+              <Reveal className="flex items-center gap-4">
+                <h2 id={`h-${category.id}`} className="shrink-0 font-display text-3xl md:text-4xl">
+                  {category.name}
+                </h2>
+                <span aria-hidden className="h-px flex-1 bg-line" />
+                <span className="shrink-0 text-sm text-ink-soft">{products.length} món</span>
+              </Reveal>
+              <ul className="mt-4 grid gap-y-1 md:mt-6 md:grid-cols-2 md:gap-x-14">
+                {products.map((p, i) => (
                   <li key={p.id}>
-                    <MenuItem product={p} onSelect={setSelected} canOrder={canOrder} />
+                    <Reveal delay={(i % 2) * 0.06}>
+                      <MenuItem product={p} onSelect={setSelected} canOrder={canOrder} />
+                    </Reveal>
                   </li>
                 ))}
               </ul>
@@ -218,7 +246,7 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
 }
 
 /**
- * One line of the menu board: a round photo, the name in condensed capitals, a dotted leader to
+ * One line of the menu board: a round photo, the name, a dotted leader to
  * the price, and the note underneath. The whole line opens the item. While ordering at a table a
  * small + sits on the photo.
  */
@@ -245,14 +273,14 @@ function MenuItem({ product: p, onSelect, canOrder }: { product: Product; onSele
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline">
-          <span className="font-condensed text-[17px] leading-tight font-medium tracking-[0.01em] uppercase transition-colors group-hover:text-caramel-dark md:text-[19px]">
+          <span className="font-display text-[18px] leading-snug font-medium transition-colors group-hover:text-caramel-dark md:text-[19px]">
             {p.name}
           </span>
           {p.badge && !soldOut && (
             <span className="ml-2 hidden shrink-0 self-center rounded-full bg-paper-2 px-2 py-0.5 text-[10px] font-semibold text-caramel-dark md:inline">{badgeText[p.badge]}</span>
           )}
           <span aria-hidden className="leader" />
-          <span className="shrink-0 font-condensed text-[17px] font-medium tabular-nums md:text-[19px]">{formatVND(p.basePrice)}</span>
+          <span className="shrink-0 font-display text-[18px] font-medium text-caramel-dark tabular-nums md:text-[19px]">{formatVND(p.basePrice)}</span>
         </span>
         <span className="mt-1 line-clamp-2 block text-[13px] leading-snug text-ink-soft md:text-sm">
           {/* On phones the badge moves down here so the name keeps the whole line. */}

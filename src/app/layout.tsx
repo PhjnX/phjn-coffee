@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, Dancing_Script, Open_Sans, Oswald, Trirong } from "next/font/google";
+import { Be_Vietnam_Pro, Open_Sans, Trirong } from "next/font/google";
 import { MotionProvider } from "@/components/MotionProvider";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -14,23 +14,8 @@ const body = Open_Sans({
 const heading = Trirong({
   subsets: ["latin", "vietnamese"],
   weight: ["400", "500", "700"],
+  style: ["normal", "italic"],
   variable: "--font-heading",
-  display: "swap",
-});
-
-/** Menu board: tall condensed capitals for item names, prices and big titles. */
-const condensed = Oswald({
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600"],
-  variable: "--font-oswald",
-  display: "swap",
-});
-
-/** A handwritten line over the menu banner. */
-const script = Dancing_Script({
-  subsets: ["latin", "vietnamese"],
-  weight: ["600"],
-  variable: "--font-dancing",
   display: "swap",
 });
 
@@ -64,7 +49,7 @@ export const viewport: Viewport = {
 /** Fonts and motion settings shared by the shop (app/(site)) and the admin (app/admin). */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${body.variable} ${heading.variable} ${condensed.variable} ${script.variable} ${admin.variable}`}>
+    <html lang="vi" className={`${body.variable} ${heading.variable} ${admin.variable}`}>
       <body>
         <MotionProvider>{children}</MotionProvider>
       </body>
