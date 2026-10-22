@@ -1,20 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, Open_Sans, Trirong } from "next/font/google";
+import { Be_Vietnam_Pro, Montserrat, Trirong } from "next/font/google";
 import { MotionProvider } from "@/components/MotionProvider";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-const body = Open_Sans({
+/** Body text: a Vietnamese sans that stays crisp at small sizes. */
+const body = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],
-  weight: ["300", "400", "600"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
   display: "swap",
 });
 
-const heading = Trirong({
+/** Headings: a bold geometric sans, set in capitals for section titles. */
+const heading = Montserrat({
   subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "700"],
+  weight: ["500", "600", "700", "800"],
   variable: "--font-heading",
+  display: "swap",
+});
+
+/** The logo keeps its serif. */
+const brand = Trirong({
+  subsets: ["latin", "vietnamese"],
+  weight: ["700"],
+  variable: "--font-brand-face",
   display: "swap",
 });
 
@@ -42,13 +52,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#e9dcc8",
+  themeColor: "#f1efec",
 };
 
 /** Fonts and motion settings shared by the shop (app/(site)) and the admin (app/admin). */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${body.variable} ${heading.variable} ${admin.variable}`}>
+    <html lang="vi" className={`${body.variable} ${heading.variable} ${brand.variable} ${admin.variable}`}>
       <body>
         <MotionProvider>{children}</MotionProvider>
       </body>

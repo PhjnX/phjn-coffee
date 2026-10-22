@@ -17,7 +17,7 @@ type Props = {
 };
 
 /** "Vừa · 50% đường · Trân châu đen". Default choices other than size are left out to keep it short. */
-function summarize(picked: { group: OptionGroup; option: Option }[]): string {
+export function summarize(picked: { group: OptionGroup; option: Option }[]): string {
   const parts = picked
     .filter(({ group, option }) => group.id === "size" || !option.isDefault)
     .map(({ group, option }) =>

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useHeroScene } from "@/lib/hero-scene";
-import { BeansIcon } from "../brand/Logo";
 
 /** `video` is a 9-second 720p loop; `poster` shows until it can play. */
 type Slide = { video: string; poster: string; kicker: string; title: string; text: string; cta: { href: string; label: string } };
@@ -256,7 +255,7 @@ export function HeroSlider() {
               <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85 md:text-lg">{slide.text}</p>
               <Link
                 href={slide.cta.href}
-                className="mt-9 border border-white/70 px-8 py-3.5 text-xs font-semibold tracking-[0.25em] uppercase transition-colors hover:border-caramel hover:bg-caramel"
+                className="mt-9 inline-flex h-12 items-center rounded-full bg-caramel px-8 text-[13px] font-bold tracking-[0.08em] text-ink uppercase transition-colors hover:bg-cream"
               >
                 {slide.cta.label}
               </Link>
@@ -331,25 +330,29 @@ export function HeroSlider() {
           transition={{ duration: t(0.6), ease, delay: isVideo ? 0 : t(0.5) }}
         >
           <div className="flex max-w-2xl flex-col items-center">
-            <motion.h1
-              className="font-display text-5xl whitespace-nowrap text-ink sm:text-6xl md:text-7xl xl:text-8xl"
-              initial={{ opacity: 0, y: 30, letterSpacing: "0.12em" }}
-              animate={{ opacity: 1, y: 0, letterSpacing: "0.02em" }}
-              transition={{ duration: t(1.2), ease }}
-            >
-              Phjn Coffee
-            </motion.h1>
-            <motion.div
-              className="mt-6 flex items-center gap-4"
-              aria-hidden
-              initial={{ opacity: 0, scaleX: 0.4 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: t(1), delay: t(0.4), ease }}
-            >
-              <span className="h-px w-20 bg-caramel/60 md:w-28" />
-              <BeansIcon className="h-6 w-7 text-caramel" />
-              <span className="h-px w-20 bg-caramel/60 md:w-28" />
-            </motion.div>
+            {/* Stacked title: "a break with coffee", then the word repeated, each line lighter. */}
+            <h1 className="font-display text-[34px] leading-[1.02] text-ink uppercase sm:text-5xl md:text-6xl">
+              <span className="sr-only">Phjn Coffee: một chút nghỉ với cà phê</span>
+              <span aria-hidden className="flex flex-col items-center">
+                {[
+                  ["Một chút nghỉ", "font-medium"],
+                  ["với cà phê", "font-extrabold"],
+                  ["cà phê", "font-extrabold text-ink/70"],
+                  ["cà phê", "font-bold text-ink/45"],
+                  ["cà phê", "font-semibold text-ink/25"],
+                ].map(([text, cls], i) => (
+                  <motion.span
+                    key={i}
+                    className={`block whitespace-nowrap ${cls}`}
+                    initial={{ opacity: 0, x: i % 2 ? 30 : -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: t(0.9), delay: t(0.1 + i * 0.1), ease }}
+                  >
+                    {text}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
             <motion.p
               className="mt-6 max-w-lg text-base leading-relaxed text-ink-soft md:text-lg"
               initial={{ opacity: 0, y: 16 }}

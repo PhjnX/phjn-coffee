@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 
 const sections = [
   { id: "top", label: "Mở đầu" },
-  { id: "cau-chuyen", label: "Câu chuyện" },
   { id: "thuc-don", label: "Thực đơn" },
+  { id: "cau-chuyen", label: "Quy trình" },
   { id: "yeu-thich", label: "Được yêu thích" },
   { id: "cua-hang", label: "Cửa hàng" },
 ];
