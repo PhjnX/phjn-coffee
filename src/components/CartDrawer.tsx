@@ -53,7 +53,6 @@ function Panel() {
   const remove = useCart((s) => s.remove);
   const close = useCart((s) => s.close);
   const table = useCart((s) => s.table);
-  const setTable = useCart((s) => s.setTable);
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -78,7 +77,12 @@ function Panel() {
     >
       <div className="flex items-center justify-between border-b border-line px-5 py-4">
         <h2 className="font-display text-2xl font-medium">
-          Giỏ hàng {count > 0 && <span className="text-base font-normal text-ink-soft">· {count} món</span>}
+          Giỏ hàng{" "}
+          {count > 0 && (
+            <span className="text-base font-normal text-ink-soft">
+              · {count} món
+            </span>
+          )}
         </h2>
         <button
           type="button"
@@ -91,21 +95,22 @@ function Panel() {
       </div>
 
       {table && (
-        <div className="flex items-center justify-between gap-3 border-b border-line bg-paper-2/60 px-5 py-3 text-sm">
-          <span>
-            Gọi món tại <strong className="font-semibold">bàn {table}</strong>
-          </span>
-          <button type="button" onClick={() => setTable(null)} className="text-xs text-ink-soft underline underline-offset-2 hover:text-ink">
-            Giao tận nơi
-          </button>
+        <div className="border-b border-line bg-paper-2/60 px-5 py-3 text-sm">
+          Gọi món tại <strong className="font-semibold">bàn {table}</strong> ·
+          nhân viên sẽ mang món ra bàn
         </div>
       )}
 
       {lines.length === 0 ? (
         <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
-          <ProductArt art={{ kind: "cup", liquid: ["#efe6d7", "#e2d4bd"] }} className="h-32 w-auto opacity-70" />
+          <ProductArt
+            art={{ kind: "cup", liquid: ["#efe6d7", "#e2d4bd"] }}
+            className="h-32 w-auto opacity-70"
+          />
           <p className="mt-4 font-display text-xl">Giỏ hàng đang trống</p>
-          <p className="mt-1 text-sm text-ink-soft">Chọn một ly cà phê hoặc một chiếc bánh để bắt đầu.</p>
+          <p className="mt-1 text-sm text-ink-soft">
+            Chọn một ly cà phê hoặc một chiếc bánh để bắt đầu.
+          </p>
           <Link
             href="/menu"
             onClick={close}
@@ -130,15 +135,31 @@ function Panel() {
                 >
                   <div className="flex gap-4 py-4">
                     <div className="grid size-20 shrink-0 place-items-center rounded-2xl bg-paper-2/70">
-                      <ProductPhoto item={line} className="size-20 rounded-2xl" sizes="80px" />
+                      <ProductPhoto
+                        item={line}
+                        className="size-20 rounded-2xl"
+                        sizes="80px"
+                      />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-3">
-                        <p className="font-semibold leading-tight">{line.name}</p>
-                        <p className="shrink-0 text-sm font-semibold tabular-nums">{formatVND(line.unitPrice * line.quantity)}</p>
+                        <p className="font-semibold leading-tight">
+                          {line.name}
+                        </p>
+                        <p className="shrink-0 text-sm font-semibold tabular-nums">
+                          {formatVND(line.unitPrice * line.quantity)}
+                        </p>
                       </div>
-                      {line.summary && <p className="mt-1 text-xs leading-snug text-ink-soft">{line.summary}</p>}
-                      {line.note && <p className="mt-1 text-xs text-ink-soft italic">“{line.note}”</p>}
+                      {line.summary && (
+                        <p className="mt-1 text-xs leading-snug text-ink-soft">
+                          {line.summary}
+                        </p>
+                      )}
+                      {line.note && (
+                        <p className="mt-1 text-xs text-ink-soft italic">
+                          “{line.note}”
+                        </p>
+                      )}
                       <div className="mt-3 flex items-center justify-between">
                         <QuantityStepper
                           size="sm"
@@ -166,9 +187,10 @@ function Panel() {
           <div className="space-y-3 border-t border-line bg-paper/60 px-5 py-5">
             <div className="flex items-center justify-between text-sm">
               <span className="text-ink-soft">Tạm tính</span>
-              <span className="text-lg font-semibold tabular-nums">{formatVND(subtotal)}</span>
+              <span className="text-lg font-semibold tabular-nums">
+                {formatVND(subtotal)}
+              </span>
             </div>
-            <p className="text-xs text-ink-soft">Phí giao hàng tính ở bước tiếp theo, theo khu vực của bạn.</p>
             <Link
               href="/checkout"
               onClick={close}

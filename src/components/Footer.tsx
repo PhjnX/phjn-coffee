@@ -8,13 +8,13 @@ export function Footer() {
         <div className="flex flex-col items-center md:items-start">
           <Logo className="w-44 text-ink" />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-soft">
-            Cà phê rang mỗi tuần, trà ủ trong ngày, bánh nướng mỗi sáng. Đặt online, giao tận nơi.
+            Cà phê rang mỗi tuần, trà ủ trong ngày, bánh nướng mỗi sáng. Quét mã QR trên bàn để gọi món.
           </p>
         </div>
         <div>
           <h2 className="text-xs font-semibold tracking-[0.2em] text-caramel uppercase">Cửa hàng</h2>
           <p className="mt-5 text-sm leading-relaxed text-ink-soft">
-            <span className="text-ink">Sắp khai trương</span> tại Sài Gòn. Hiện Phjn nhận đơn online và giao tận nơi.
+            <span className="text-ink">Sắp khai trương</span> tại Sài Gòn. Món được gọi qua mã QR trên từng bàn.
           </p>
         </div>
         <div>
@@ -25,8 +25,8 @@ export function Footer() {
                 Xem thực đơn
               </Link>
             </li>
-            <li>Nhận đơn 7:00 – 22:00 mỗi ngày</li>
-            <li>Giao khoảng 30 phút trong nội thành</li>
+            <li>Mở cửa 7:00 – 22:00 mỗi ngày</li>
+            <li>Gọi món bằng mã QR trên bàn</li>
           </ul>
           <p className="mt-6 font-display text-lg tracking-wide text-caramel-dark">Hẹn bạn ở ly cà phê tiếp theo!</p>
         </div>

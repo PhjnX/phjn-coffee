@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     default: "Phjn Coffee · Cà phê, trà và bánh",
     template: "%s · Phjn Coffee",
   },
-  description: "Đặt cà phê, trà sữa, trà trái cây, nước ép và bánh nướng mỗi ngày của Phjn Coffee. Giao tận nơi hoặc gọi món tại bàn.",
+  description: "Đặt cà phê, trà sữa, trà trái cây, nước ép và bánh nướng mỗi ngày của Phjn Coffee. Xem thực đơn và quét mã QR trên bàn để gọi món.",
   openGraph: {
     type: "website",
     locale: "vi_VN",

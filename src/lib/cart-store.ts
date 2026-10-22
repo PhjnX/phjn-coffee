@@ -28,8 +28,10 @@ type AddInput = Omit<CartLine, "key" | "quantity"> & { quantity: number };
 type CartState = {
   lines: CartLine[];
   isOpen: boolean;
-  /** Table number from the QR code on a table ("?ban=12"); null when ordering for delivery. */
+  /** Table number from the QR code on a table ("?ban=12"). Ordering is only open while one is set. */
   table: string | null;
+  /** When that QR code was scanned (ms). A table is forgotten after TABLE_TTL_MS. */
+  tableAt: number | null;
   setTable: (table: string | null) => void;
   add: (input: AddInput) => void;
   setQuantity: (key: string, quantity: number) => void;
@@ -41,13 +43,17 @@ type CartState = {
 
 export { MAX_QTY } from "./order";
 
+/** A visit lasts a few hours; after that the QR code has to be scanned again to order. */
+export const TABLE_TTL_MS = 3 * 60 * 60_000;
+
 export const useCart = create<CartState>()(
   persist(
     (set) => ({
       lines: [],
       isOpen: false,
       table: null,
-      setTable: (table) => set({ table }),
+      tableAt: null,
+      setTable: (table) => set({ table, tableAt: table ? Date.now() : null }),
       add: (input) =>
         set((state) => {
           const key = lineKey(input.productId, input.selection, input.note);
@@ -76,8 +82,8 @@ export const useCart = create<CartState>()(
     {
       name: "phjn-cart",
       storage: createJSONStorage(() => localStorage),
-      // Lines and the table number are saved; the drawer always starts closed.
-      partialize: (state) => ({ lines: state.lines, table: state.table }),
+      // Lines and the table are saved; the drawer always starts closed.
+      partialize: (state) => ({ lines: state.lines, table: state.table, tableAt: state.tableAt }),
     },
   ),
 );

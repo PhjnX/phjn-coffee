@@ -71,7 +71,9 @@ export function SiteNav({ categories }: { categories: Category[] }) {
       {/* Desktop top bar (compact state) */}
       <motion.header
         className={`fixed inset-x-0 top-0 z-40 hidden h-[72px] items-center justify-between border-b px-8 transition-[background-color,border-color,color] duration-500 lg:flex ${
-          overlay ? "border-transparent bg-transparent text-white" : "border-line bg-paper/85 text-ink backdrop-blur-md"
+          overlay
+            ? "border-transparent bg-transparent text-white"
+            : "border-line bg-paper/85 text-ink backdrop-blur-md"
         }`}
         initial={false}
         animate={{ y: compact ? 0 : "-100%", opacity: compact ? 1 : 0 }}
@@ -85,16 +87,30 @@ export function SiteNav({ categories }: { categories: Category[] }) {
               key={l.href}
               href={l.href}
               className={`relative py-2 font-display text-base transition-colors hover:text-caramel-dark ${
-                l.active ? (overlay ? "text-white" : "text-caramel") : overlay ? "text-white/80 hover:text-white" : "text-ink/85"
+                l.active
+                  ? overlay
+                    ? "text-white"
+                    : "text-caramel"
+                  : overlay
+                    ? "text-white/80 hover:text-white"
+                    : "text-ink/85"
               }`}
             >
               {l.label}
-              {l.active && <span className={`absolute inset-x-0 -bottom-0.5 h-px ${overlay ? "bg-white" : "bg-caramel"}`} />}
+              {l.active && (
+                <span
+                  className={`absolute inset-x-0 -bottom-0.5 h-px ${overlay ? "bg-white" : "bg-caramel"}`}
+                />
+              )}
             </Link>
           ))}
         </nav>
         <div className="flex items-center gap-5">
-          <span className={`hidden text-xs tracking-wider xl:inline ${overlay ? "text-white/70" : "text-ink-soft"}`}>7:00 – 22:00</span>
+          <span
+            className={`hidden text-xs tracking-wider xl:inline ${overlay ? "text-white/70" : "text-ink-soft"}`}
+          >
+            7:00 – 22:00
+          </span>
           <CartButton light={overlay} />
         </div>
       </motion.header>
@@ -154,7 +170,11 @@ export function SiteNav({ categories }: { categories: Category[] }) {
 
 function Wordmark({ light = false }: { light?: boolean }) {
   return (
-    <Link href="/" className={`transition-[opacity,color] duration-500 hover:opacity-80 ${light ? "text-white" : "text-ink"}`} aria-label="Phjn Coffee, về trang chủ">
+    <Link
+      href="/"
+      className={`transition-[opacity,color] duration-500 hover:opacity-80 ${light ? "text-white" : "text-ink"}`}
+      aria-label="Phjn Coffee, về trang chủ"
+    >
       <Logo className="h-11 w-auto" />
     </Link>
   );
@@ -178,7 +198,11 @@ function SidebarContent({ categories }: { categories: Category[] }) {
 
   return (
     <div className="no-scrollbar flex h-full flex-col items-center overflow-y-auto px-8 py-12 text-center">
-      <Link href="/" aria-label="Phjn Coffee, về trang chủ" className="text-ink transition-opacity hover:opacity-80">
+      <Link
+        href="/"
+        aria-label="Phjn Coffee, về trang chủ"
+        className="text-ink transition-opacity hover:opacity-80"
+      >
         <Logo className="w-48" />
       </Link>
 
@@ -204,21 +228,78 @@ function SidebarContent({ categories }: { categories: Category[] }) {
         </ul>
       </nav>
 
-      <div className="space-y-3 text-xs leading-relaxed text-ink-soft">
-        <p className="font-display text-base text-caramel-dark">Nhận đơn online</p>
-        <p>7:00 – 22:00 · Giao khoảng 30 phút</p>
-        <CartButton />
-      </div>
+      <OrderStatus />
     </div>
   );
 }
 
-/** Round cart icon with a small count badge. `light` is the white variant used over the home video. */
-function CartButton({ compact = false, light = false }: { compact?: boolean; light?: boolean }) {
+/**
+ * Sidebar footer. Ordering opens only after scanning the QR code on a table, so without one this
+ * says how to order; with one it names the table and holds the cart.
+ */
+function OrderStatus() {
   const mounted = useMounted();
+  const table = useCart((s) => s.table);
   const lines = useCart((s) => s.lines);
   const open = useCart((s) => s.open);
   const count = mounted ? cartCount(lines) : 0;
+
+  if (!mounted || !table) {
+    return (
+      <div className="flex flex-col items-center gap-2 text-xs leading-relaxed text-ink-soft">
+        <QrIcon />
+        <p className="font-display text-base text-caramel-dark">
+          Gọi món tại bàn
+        </p>
+        <p>Quét mã QR trên bàn để gọi món</p>
+        <p>7:00 – 22:00 mỗi ngày</p>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col items-center gap-3 text-xs text-ink-soft">
+      <p>
+        Đang gọi món tại{" "}
+        <span className="font-display text-base text-caramel-dark">
+          bàn {table}
+        </span>
+      </p>
+      <button
+        type="button"
+        onClick={open}
+        className="inline-flex items-center gap-2.5 rounded-full border border-ink/20 py-2.5 pr-5 pl-4 text-sm font-medium text-ink transition-colors hover:border-caramel hover:bg-caramel hover:text-cream"
+      >
+        <CartIcon />
+        Giỏ hàng
+        {count > 0 && (
+          <span className="grid h-5 min-w-5 place-items-center rounded-full bg-caramel px-1 text-[11px] font-semibold text-cream">
+            {count}
+          </span>
+        )}
+      </button>
+    </div>
+  );
+}
+
+/**
+ * Round cart button with a small count badge, shown only while ordering at a table. `light` is the
+ * white variant used over the home video; `compact` keeps its space on the phone bar so the logo
+ * stays centred.
+ */
+function CartButton({
+  compact = false,
+  light = false,
+}: {
+  compact?: boolean;
+  light?: boolean;
+}) {
+  const mounted = useMounted();
+  const lines = useCart((s) => s.lines);
+  const table = useCart((s) => s.table);
+  const open = useCart((s) => s.open);
+  const count = mounted ? cartCount(lines) : 0;
+  if (!mounted || !table)
+    return compact ? <span aria-hidden className="size-11" /> : null;
   const tone = compact
     ? ""
     : light
@@ -228,7 +309,7 @@ function CartButton({ compact = false, light = false }: { compact?: boolean; lig
     <button
       type="button"
       onClick={open}
-      aria-label={`Giỏ hàng, ${count} món`}
+      aria-label={`Giỏ hàng bàn ${table}, ${count} món`}
       className={`relative grid size-11 place-items-center rounded-full transition-colors ${tone}`}
     >
       <CartIcon />
@@ -249,12 +330,46 @@ function CartButton({ compact = false, light = false }: { compact?: boolean; lig
   );
 }
 
+/** A cup of coffee with steam, drawn like the cup in the logo. */
 function CartIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M2.5 3.5h2.2l2.4 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2L21 7.5H5.6" />
-      <circle cx="9.5" cy="20" r="1.3" />
-      <circle cx="17" cy="20" r="1.3" />
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M4.5 10h11v4.5a4.5 4.5 0 0 1-4.5 4.5H9a4.5 4.5 0 0 1-4.5-4.5V10Z" />
+      <path d="M15.5 11.5h1.25a2.25 2.25 0 0 1 0 4.5H15" />
+      <path d="M3 21.5h14" />
+      <path d="M8.5 3c-.9 1 .9 2.2 0 3.5M12 3c-.9 1 .9 2.2 0 3.5" />
+    </svg>
+  );
+}
+
+function QrIcon() {
+  return (
+    <svg
+      width="26"
+      height="26"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-caramel"
+      aria-hidden
+    >
+      <rect x="3.5" y="3.5" width="6" height="6" rx="1" />
+      <rect x="14.5" y="3.5" width="6" height="6" rx="1" />
+      <rect x="3.5" y="14.5" width="6" height="6" rx="1" />
+      <path d="M14.5 14.5h2v2h-2zM18.5 14.5h2M14.5 20.5h2M18.5 18.5v2h2" />
     </svg>
   );
 }

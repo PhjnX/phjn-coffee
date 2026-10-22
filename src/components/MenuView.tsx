@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "@/lib/cart-store";
 import { formatVND, normalize } from "@/lib/format";
 import type { Menu, Product } from "@/lib/types";
+import { useMounted } from "@/lib/use-mounted";
 import { ProductPhoto } from "./ProductImage";
 import { ProductSheet } from "./ProductSheet";
 
@@ -27,6 +28,10 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
   );
   const [toast, setToast] = useState<string | null>(null);
   const openCart = useCart((s) => s.open);
+  // Ordering opens only after scanning a table's QR code; before that the menu is for browsing.
+  const mounted = useMounted();
+  const table = useCart((s) => s.table);
+  const canOrder = mounted && table !== null;
   const chipsRef = useRef<HTMLDivElement>(null);
   const toastTimer = useRef<number | undefined>(undefined);
   const spyPaused = useRef(false);
@@ -170,6 +175,19 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
         </aside>
 
         <div>
+          {mounted && !table && (
+            <p className="mb-8 flex items-center gap-3 rounded-2xl border border-line bg-paper-2/60 px-4 py-3 text-sm text-ink-soft">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="shrink-0 text-caramel" aria-hidden>
+                <rect x="3.5" y="3.5" width="6" height="6" rx="1" />
+                <rect x="14.5" y="3.5" width="6" height="6" rx="1" />
+                <rect x="3.5" y="14.5" width="6" height="6" rx="1" />
+                <path d="M14.5 14.5h2v2h-2zM18.5 14.5h2M14.5 20.5h2M18.5 18.5v2h2" />
+              </svg>
+              <span>
+                Bạn đang xem thực đơn. <strong className="font-semibold text-ink">Quét mã QR trên bàn</strong> để gọi món.
+              </span>
+            </p>
+          )}
           {sections.length === 0 && (
             <div className="py-24 text-center">
               <p className="font-display text-2xl">Không tìm thấy “{query}”</p>
@@ -188,7 +206,7 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
               <ul className="grid gap-3 md:grid-cols-2 md:gap-4">
                 {products.map((p) => (
                   <li key={p.id}>
-                    <MenuItem product={p} onSelect={setSelected} />
+                    <MenuItem product={p} onSelect={setSelected} canOrder={canOrder} />
                   </li>
                 ))}
               </ul>
@@ -224,8 +242,11 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
   );
 }
 
-/** Horizontal item card: square photo, name with badge, two-line note, price and a round + button. */
-function MenuItem({ product: p, onSelect }: { product: Product; onSelect: (p: Product) => void }) {
+/**
+ * Horizontal item card: square photo, name with badge, two-line note, price and a round + button.
+ * Without a table the + is left out and the card just opens the item's details.
+ */
+function MenuItem({ product: p, onSelect, canOrder }: { product: Product; onSelect: (p: Product) => void; canOrder: boolean }) {
   const soldOut = !p.isAvailable;
   return (
     <button
@@ -249,7 +270,7 @@ function MenuItem({ product: p, onSelect }: { product: Product; onSelect: (p: Pr
         <span className="mt-1 line-clamp-2 text-[13px] leading-snug text-ink-soft">{soldOut ? "Tạm hết hôm nay" : p.description}</span>
         <span className="mt-auto flex items-center justify-between pt-2">
           <span className="font-semibold tabular-nums">{formatVND(p.basePrice)}</span>
-          {!soldOut && (
+          {!soldOut && canOrder && (
             <span
               aria-hidden
               className="grid size-9 place-items-center rounded-full bg-ink text-lg leading-none text-cream transition-colors group-hover:bg-caramel-dark"
@@ -259,7 +280,7 @@ function MenuItem({ product: p, onSelect }: { product: Product; onSelect: (p: Pr
           )}
         </span>
       </span>
-      <span className="sr-only">{soldOut ? "Món này đang tạm hết" : `Chọn ${p.name}`}</span>
+      <span className="sr-only">{soldOut ? "Món này đang tạm hết" : canOrder ? `Chọn ${p.name}` : `Xem ${p.name}`}</span>
     </button>
   );
 }

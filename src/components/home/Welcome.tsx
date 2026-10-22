@@ -9,7 +9,7 @@ import { SectionTitle } from "./SectionTitle";
 const features = [
   { title: "Rang mộc", text: "Robusta Đắk Lắk và Arabica Cầu Đất, rang mỗi tuần.", icon: <BeanIcon /> },
   { title: "Pha tay", text: "Phin, espresso hay pour-over đều pha theo từng ly.", icon: <DripIcon /> },
-  { title: "Giao nhanh", text: "Trong 30 phút, đá để riêng nếu bạn muốn.", icon: <ScooterIcon /> },
+  { title: "Gọi tại bàn", text: "Quét mã QR trên bàn, món mang ra tận nơi.", icon: <QrIcon /> },
 ];
 
 /** Story block: text and three promises on the left, a layered photo collage that drifts on scroll on the right. */
@@ -92,13 +92,13 @@ function DripIcon() {
   );
 }
 
-function ScooterIcon() {
+function QrIcon() {
   return (
     <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden>
-      <circle cx="8" cy="25" r="4" />
-      <circle cx="26" cy="25" r="4" />
-      <path d="M12 25h10l3-9h3M21 16h-9l-3 5" />
-      <rect x="9" y="9" width="8" height="6" rx="1" />
+      <rect x="5" y="5" width="9" height="9" rx="1.5" />
+      <rect x="20" y="5" width="9" height="9" rx="1.5" />
+      <rect x="5" y="20" width="9" height="9" rx="1.5" />
+      <path d="M20 20h3v3h-3zM26 20h3M20 29h3M26 26v3h3M8.5 8.5h2v2h-2zM23.5 8.5h2v2h-2zM8.5 23.5h2v2h-2z" />
     </svg>
   );
 }

@@ -17,7 +17,7 @@ export default async function MenuPage({ searchParams }: Props) {
       <header className="kraft border-b border-line">
         <div className="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
           <h1 className="font-display text-4xl md:text-5xl">Thực đơn</h1>
-          <p className="mt-2 text-ink-soft">{available} món đang phục vụ · chỉnh size, đường, đá theo ý bạn · giao khoảng 30 phút</p>
+          <p className="mt-2 text-ink-soft">{available} món đang phục vụ · chỉnh size, đường, đá theo ý bạn · quét mã QR trên bàn để gọi món</p>
         </div>
       </header>
       <MenuView menu={menu} initialProductSlug={mon} />

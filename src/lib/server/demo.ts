@@ -43,7 +43,7 @@ export function demoOrders(menu: Menu, tables: string[], days = 30, now = Date.n
       if (day === today && hour > nowHour) continue;
       const minute = Math.floor(r() * 60);
       const createdAt = new Date(Date.parse(`${day}T00:00:00Z`) + ((hour - 7) * 60 + minute) * 60_000).toISOString();
-      const atTable = r() < 0.62 && tables.length > 0;
+      const atTable = tables.length > 0;
       const lineCount = 1 + Math.floor(r() * r() * 3);
       const lines = Array.from({ length: lineCount }, () => {
         const p = pick(r, products, (x) => (x.badge === "bestseller" ? 4 : x.badge ? 2 : 1));

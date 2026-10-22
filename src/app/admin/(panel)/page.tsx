@@ -2,7 +2,7 @@ import Link from "next/link";
 import { addDemoData, clearDemoData } from "@/app/admin/actions";
 import { ghostButton, PageHeader, Panel, primaryButton } from "@/components/admin/AdminUI";
 import { SERIES } from "@/components/admin/chart-colors";
-import { BarList, ColumnChart, SplitBar } from "@/components/admin/charts";
+import { BarList, ColumnChart } from "@/components/admin/charts";
 import { formatVND } from "@/lib/format";
 import { vnDay } from "@/lib/order";
 import { store, vnDayBounds } from "@/lib/server/store";
@@ -114,18 +114,11 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
             height={320}
           />
         </Panel>
-        <Panel title="Tại bàn hay giao hàng">
-          <SplitBar
-            parts={[
-              { name: "Tại bàn (QR)", value: s.split.table, color: SERIES.primary },
-              { name: "Giao tận nơi", value: s.split.delivery, color: SERIES.secondary },
-            ]}
-          />
-          {s.tables.length > 0 && (
-            <div className="mt-6 border-t border-line pt-5">
-              <p className="mb-3 text-sm font-semibold">Bàn có doanh thu cao nhất</p>
-              <BarList items={s.tables.map((t) => ({ ...t, note: `· ${t.qty} đơn` }))} unit="compact" />
-            </div>
+        <Panel title="Bàn có doanh thu cao nhất">
+          {s.tables.length > 0 ? (
+            <BarList items={s.tables.map((t) => ({ ...t, note: `· ${t.qty} đơn` }))} unit="compact" />
+          ) : (
+            <p className="text-sm text-ink-soft">Chưa có đơn tại bàn trong khoảng này.</p>
           )}
         </Panel>
       </div>
