@@ -12,12 +12,13 @@ import { ProductSheet } from "./ProductSheet";
 const badgeText = { bestseller: "Bán chạy", new: "Mới", signature: "Đặc biệt" } as const;
 
 /** Space the sticky bars take above a section when we scroll to it. */
-const offset = () => (window.matchMedia("(min-width: 1024px)").matches ? 96 : 200);
+const offset = () => (window.matchMedia("(min-width: 1024px)").matches ? 150 : 190);
 
 /**
- * Menu page. Phones: a sticky bar with search and category chips. Desktop: a sticky side column
- * with search and the category list. Items are horizontal cards (photo, name, note, price, +).
- * The active category follows the scroll; tapping one scrolls there smoothly. The chip row is
+ * Menu page, laid out like a printed café menu board: a sticky bar with search and category chips,
+ * then each category as a list of lines (round photo, name, dotted leader, price, note), flowing
+ * into two columns on wide screens. The active category follows the scroll; tapping one scrolls
+ * there smoothly. The chip row is
  * scrolled sideways on its own, never the page, so the scroll never jumps.
  */
 export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProductSlug?: string }) {
@@ -115,95 +116,69 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
 
   return (
     <>
-      {/* Phones: sticky search + chips */}
-      <div className="sticky top-16 z-30 border-b border-line bg-paper/95 backdrop-blur-md lg:hidden">
-        <div className="px-4 pt-3">{search}</div>
-        <div ref={chipsRef} className="no-scrollbar flex gap-2 overflow-x-auto px-4 py-3" role="tablist" aria-label="Danh mục">
-          {sections.map(({ category }) => (
-            <button
-              key={category.id}
-              type="button"
-              role="tab"
-              data-cat={category.id}
-              aria-selected={active === category.id}
-              onClick={() => jumpTo(category.id)}
-              className={`shrink-0 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors ${
-                active === category.id ? "border-ink bg-ink text-cream" : "border-line bg-card text-ink-soft"
-              }`}
-            >
-              {category.name}
-            </button>
-          ))}
+      {/* Sticky bar under the site header: search and the category chips */}
+      <div className="sticky top-16 z-30 border-b border-line bg-paper/95 backdrop-blur-md lg:top-[72px]">
+        <div className="mx-auto flex max-w-6xl flex-col gap-0 px-4 md:px-8 lg:flex-row lg:items-center lg:gap-6 lg:py-2">
+          <div className="pt-3 lg:order-2 lg:w-64 lg:shrink-0 lg:pt-0">{search}</div>
+          <div
+            ref={chipsRef}
+            className="no-scrollbar -mx-4 flex flex-1 gap-2 overflow-x-auto px-4 py-3 lg:mx-0 lg:px-0"
+            role="tablist"
+            aria-label="Danh mục"
+          >
+            {sections.map(({ category }) => (
+              <button
+                key={category.id}
+                type="button"
+                role="tab"
+                data-cat={category.id}
+                aria-selected={active === category.id}
+                onClick={() => jumpTo(category.id)}
+                className={`shrink-0 rounded-full border px-4 py-2 font-condensed text-[15px] tracking-[0.04em] whitespace-nowrap uppercase transition-colors ${
+                  active === category.id ? "border-ink bg-ink text-cream" : "border-line bg-card text-ink-soft hover:text-ink"
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 pt-6 pb-10 md:px-8 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-14 lg:pt-10">
-        {/* Desktop: sticky side column */}
-        <aside className="hidden lg:block">
-          <div className="sticky top-28 space-y-6">
-            {search}
-            <nav aria-label="Danh mục">
-              <ul className="space-y-0.5">
-                {sections.map(({ category, products }) => {
-                  const on = active === category.id;
-                  return (
-                    <li key={category.id}>
-                      <button
-                        type="button"
-                        onClick={() => jumpTo(category.id)}
-                        aria-current={on ? "true" : undefined}
-                        className={`relative flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-left transition-colors ${
-                          on ? "text-ink" : "text-ink-soft hover:bg-paper-2/60 hover:text-ink"
-                        }`}
-                      >
-                        {on && (
-                          <motion.span
-                            layoutId="menu-side"
-                            className="absolute inset-0 rounded-xl bg-paper-2"
-                            transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                          />
-                        )}
-                        <span className="relative font-display text-[17px]">{category.name}</span>
-                        <span className="relative text-xs tabular-nums">{products.length}</span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+      <div className="mx-auto max-w-6xl px-5 pt-8 pb-16 md:px-8 md:pt-12">
+        {mounted && !table && (
+          <p className="mx-auto mb-10 flex max-w-xl items-center gap-3 rounded-2xl border border-line bg-paper-2/60 px-4 py-3 text-sm text-ink-soft">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="shrink-0 text-caramel-dark" aria-hidden>
+              <rect x="3.5" y="3.5" width="6" height="6" rx="1" />
+              <rect x="14.5" y="3.5" width="6" height="6" rx="1" />
+              <rect x="3.5" y="14.5" width="6" height="6" rx="1" />
+              <path d="M14.5 14.5h2v2h-2zM18.5 14.5h2M14.5 20.5h2M18.5 18.5v2h2" />
+            </svg>
+            <span>
+              Bạn đang xem thực đơn. <strong className="font-semibold text-ink">Quét mã QR trên bàn</strong> để gọi món.
+            </span>
+          </p>
+        )}
+        {sections.length === 0 && (
+          <div className="py-24 text-center">
+            <p className="font-display text-2xl">Không tìm thấy “{query}”</p>
+            <p className="mt-2 text-sm text-ink-soft">Thử gõ không dấu, ví dụ “tra dao”.</p>
           </div>
-        </aside>
+        )}
 
-        <div>
-          {mounted && !table && (
-            <p className="mb-8 flex items-center gap-3 rounded-2xl border border-line bg-paper-2/60 px-4 py-3 text-sm text-ink-soft">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="shrink-0 text-caramel" aria-hidden>
-                <rect x="3.5" y="3.5" width="6" height="6" rx="1" />
-                <rect x="14.5" y="3.5" width="6" height="6" rx="1" />
-                <rect x="3.5" y="14.5" width="6" height="6" rx="1" />
-                <path d="M14.5 14.5h2v2h-2zM18.5 14.5h2M14.5 20.5h2M18.5 18.5v2h2" />
-              </svg>
-              <span>
-                Bạn đang xem thực đơn. <strong className="font-semibold text-ink">Quét mã QR trên bàn</strong> để gọi món.
-              </span>
-            </p>
-          )}
-          {sections.length === 0 && (
-            <div className="py-24 text-center">
-              <p className="font-display text-2xl">Không tìm thấy “{query}”</p>
-              <p className="mt-2 text-sm text-ink-soft">Thử gõ không dấu, ví dụ “tra dao”.</p>
-            </div>
-          )}
-
+        {/* Menu board: categories flow into two columns on wide screens, like a printed café menu */}
+        <div className="md:columns-2 md:gap-16">
           {sections.map(({ category, products }) => (
-            <section key={category.id} id={`cat-${category.id}`} aria-labelledby={`h-${category.id}`} className="mb-12 scroll-mt-52 lg:scroll-mt-24">
-              <div className="mb-4 flex items-baseline justify-between gap-4">
-                <h2 id={`h-${category.id}`} className="font-display text-2xl md:text-3xl">
-                  {category.name}
-                </h2>
-                <span className="text-sm text-ink-soft">{products.length} món</span>
-              </div>
-              <ul className="grid gap-3 md:grid-cols-2 md:gap-4">
+            <section
+              key={category.id}
+              id={`cat-${category.id}`}
+              aria-labelledby={`h-${category.id}`}
+              className="mb-12 break-inside-avoid scroll-mt-44 md:mb-14 lg:scroll-mt-36"
+            >
+              <h2 id={`h-${category.id}`} className="font-condensed text-[30px] leading-none font-medium tracking-[0.01em] uppercase md:text-[36px]">
+                {category.name}
+              </h2>
+              <ul className="mt-5 space-y-1">
                 {products.map((p) => (
                   <li key={p.id}>
                     <MenuItem product={p} onSelect={setSelected} canOrder={canOrder} />
@@ -243,8 +218,9 @@ export function MenuView({ menu, initialProductSlug }: { menu: Menu; initialProd
 }
 
 /**
- * Horizontal item card: square photo, name with badge, two-line note, price and a round + button.
- * Without a table the + is left out and the card just opens the item's details.
+ * One line of the menu board: a round photo, the name in condensed capitals, a dotted leader to
+ * the price, and the note underneath. The whole line opens the item. While ordering at a table a
+ * small + sits on the photo.
  */
 function MenuItem({ product: p, onSelect, canOrder }: { product: Product; onSelect: (p: Product) => void; canOrder: boolean }) {
   const soldOut = !p.isAvailable;
@@ -253,31 +229,35 @@ function MenuItem({ product: p, onSelect, canOrder }: { product: Product; onSele
       type="button"
       disabled={soldOut}
       onClick={() => onSelect(p)}
-      className="group flex w-full items-stretch gap-4 rounded-2xl border border-line/70 bg-card p-3 text-left transition-[box-shadow,border-color] hover:border-line hover:shadow-[0_10px_30px_-18px_rgb(59_46_37/0.45)] disabled:cursor-not-allowed"
+      className="group flex w-full items-center gap-4 rounded-2xl py-2.5 text-left transition-colors hover:bg-paper-2/50 disabled:cursor-not-allowed md:-mx-2 md:w-[calc(100%+1rem)] md:px-2"
     >
-      <ProductPhoto
-        item={p}
-        className={`aspect-square w-24 shrink-0 rounded-xl sm:w-28 ${soldOut ? "opacity-60 grayscale" : ""}`}
-        sizes="112px"
-      />
-      <span className="flex min-w-0 flex-1 flex-col py-0.5">
-        <span className="flex items-start gap-2">
-          <span className="font-display text-lg leading-snug">{p.name}</span>
+      <span className="relative shrink-0">
+        <ProductPhoto
+          item={p}
+          className={`size-[72px] rounded-full ring-4 ring-espresso/90 md:size-20 ${soldOut ? "opacity-60 grayscale" : ""}`}
+          sizes="80px"
+        />
+        {!soldOut && canOrder && (
+          <span aria-hidden className="absolute -right-1 -bottom-1 grid size-6 place-items-center rounded-full bg-caramel text-sm leading-none text-white ring-2 ring-paper">
+            +
+          </span>
+        )}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="flex items-baseline">
+          <span className="font-condensed text-[17px] leading-tight font-medium tracking-[0.01em] uppercase transition-colors group-hover:text-caramel-dark md:text-[19px]">
+            {p.name}
+          </span>
           {p.badge && !soldOut && (
-            <span className="mt-1 shrink-0 rounded-full bg-paper-2 px-2 py-0.5 text-[10px] font-semibold text-caramel-dark">{badgeText[p.badge]}</span>
+            <span className="ml-2 hidden shrink-0 self-center rounded-full bg-paper-2 px-2 py-0.5 text-[10px] font-semibold text-caramel-dark md:inline">{badgeText[p.badge]}</span>
           )}
+          <span aria-hidden className="leader" />
+          <span className="shrink-0 font-condensed text-[17px] font-medium tabular-nums md:text-[19px]">{formatVND(p.basePrice)}</span>
         </span>
-        <span className="mt-1 line-clamp-2 text-[13px] leading-snug text-ink-soft">{soldOut ? "Tạm hết hôm nay" : p.description}</span>
-        <span className="mt-auto flex items-center justify-between pt-2">
-          <span className="font-semibold tabular-nums">{formatVND(p.basePrice)}</span>
-          {!soldOut && canOrder && (
-            <span
-              aria-hidden
-              className="grid size-9 place-items-center rounded-full bg-ink text-lg leading-none text-cream transition-colors group-hover:bg-caramel-dark"
-            >
-              +
-            </span>
-          )}
+        <span className="mt-1 line-clamp-2 block text-[13px] leading-snug text-ink-soft md:text-sm">
+          {/* On phones the badge moves down here so the name keeps the whole line. */}
+          {p.badge && !soldOut && <span className="mr-1.5 font-semibold text-caramel-dark md:hidden">{badgeText[p.badge]} ·</span>}
+          {soldOut ? "Tạm hết hôm nay" : p.description}
         </span>
       </span>
       <span className="sr-only">{soldOut ? "Món này đang tạm hết" : canOrder ? `Chọn ${p.name}` : `Xem ${p.name}`}</span>

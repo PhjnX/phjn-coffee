@@ -28,7 +28,7 @@ export function MenuList({ categories, products }: { categories: Category[]; pro
               role="tab"
               aria-selected={active === c.id}
               onClick={() => setActive(c.id)}
-              className={`relative shrink-0 pb-2 text-[13px] font-medium tracking-[0.16em] whitespace-nowrap uppercase transition-colors ${
+              className={`relative shrink-0 pb-2 font-condensed text-[16px] font-medium tracking-[0.06em] whitespace-nowrap uppercase transition-colors ${
                 active === c.id ? "text-caramel" : "text-ink-soft hover:text-ink"
               }`}
             >
@@ -55,16 +55,16 @@ export function MenuList({ categories, products }: { categories: Category[]; pro
                 <Link href={`/menu?mon=${p.slug}`} className="group flex items-center gap-5">
                   <ProductPhoto
                     item={p}
-                    className="size-20 shrink-0 rounded-full transition-transform duration-500 group-hover:scale-105 md:size-24"
+                    className="size-[72px] shrink-0 rounded-full ring-4 ring-espresso/90 transition-transform duration-500 group-hover:scale-105 md:size-20"
                     sizes="96px"
                   />
                   <span className="min-w-0 flex-1">
                     <span className="flex items-baseline">
-                      <span className="font-display text-lg font-medium transition-colors group-hover:text-caramel md:text-xl">
+                      <span className="font-condensed text-[18px] leading-tight font-medium uppercase transition-colors group-hover:text-caramel-dark md:text-[20px]">
                         {p.name}
                       </span>
                       <span aria-hidden className="leader" />
-                      <span className="font-display text-lg font-medium text-caramel md:text-xl">{formatVND(p.basePrice)}</span>
+                      <span className="shrink-0 font-condensed text-[18px] font-medium tabular-nums md:text-[20px]">{formatVND(p.basePrice)}</span>
                     </span>
                     <span className="mt-1.5 line-clamp-2 block text-sm text-ink-soft">
                       {p.isAvailable ? p.description : "Tạm hết hôm nay"}

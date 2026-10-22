@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { MenuHero } from "@/components/menu/MenuHero";
 import { MenuView } from "@/components/MenuView";
 import { getMenu } from "@/lib/menu";
 
 export const metadata: Metadata = {
   title: "Thực đơn",
-  description: "Cà phê, trà sữa, trà trái cây, nước ép, sinh tố và bánh của Phjn Coffee. Chọn size, mức đường, đá và topping theo ý bạn.",
+  description: "Cà phê, trà sữa, trà trái cây, nước ép và bánh nướng của Phjn Coffee. Chỉnh size, đường, đá theo ý bạn.",
 };
 
 type Props = { searchParams: Promise<{ mon?: string }> };
@@ -14,12 +15,7 @@ export default async function MenuPage({ searchParams }: Props) {
   const available = menu.products.filter((p) => p.isAvailable).length;
   return (
     <main>
-      <header className="kraft border-b border-line">
-        <div className="mx-auto max-w-6xl px-4 py-8 md:px-8 md:py-12">
-          <h1 className="font-display text-4xl md:text-5xl">Thực đơn</h1>
-          <p className="mt-2 text-ink-soft">{available} món đang phục vụ · chỉnh size, đường, đá theo ý bạn · quét mã QR trên bàn để gọi món</p>
-        </div>
-      </header>
+      <MenuHero available={available} />
       <MenuView menu={menu} initialProductSlug={mon} />
     </main>
   );
