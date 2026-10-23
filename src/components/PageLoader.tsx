@@ -9,7 +9,7 @@ const ROUTE_MIN_MS = 800;
 const SAFETY_MS = 6000;
 
 /**
- * Full-screen coffee loader. It is in the server HTML, so it covers the first paint on a visit or
+ * Full-screen coffee loader on the brand navy: a phin drips into a glass that fills with coffee. It is in the server HTML, so it covers the first paint on a visit or
  * reload and lifts once the page has loaded. Clicking a link to another page shows it again until
  * the new route renders. Same-page links (hashes, query changes) don't trigger it.
  */
@@ -72,53 +72,72 @@ export function PageLoader() {
           key="loader"
           role="status"
           aria-label="Đang tải"
-          className="kraft fixed inset-0 z-[100] grid place-items-center"
+          className="fixed inset-0 z-[100] grid place-items-center bg-espresso"
           initial={false}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: "-6%", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }}
+          animate={{ y: 0 }}
+          // Lifts away like a curtain to show the page underneath.
+          exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
         >
-          <LoaderCup />
+          <LoaderPhin />
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
 
-/** A cup on a saucer that fills with coffee while three curls of steam rise. */
-function LoaderCup() {
-  const body = "M30 52h60v10c0 22-13.4 36-30 36S30 84 30 62z";
+/**
+ * A phin filter on a glass: drops fall from the phin, the coffee rises with a rippling surface
+ * and a band of crema, and a brass arc turns around it all.
+ */
+function LoaderPhin() {
+  const glass = "M41 56 45 108q.5 4 4.5 4h21q4 0 4.5-4L79 56Z";
+  // A gentle wave 60 units long, repeated so sliding it by one period loops seamlessly.
+  const wave = (y: number) => `M-60 ${y}${" q15 -4 30 0 t30 0".repeat(5)} V170 H-60 Z`;
   return (
-    <svg viewBox="0 0 120 120" width="128" height="128" className="size-32 text-ink" aria-hidden>
+    <svg viewBox="0 0 120 140" width="168" height="196" className="h-48 w-40 text-cream" aria-hidden>
       <defs>
-        <clipPath id="loader-cup">
-          <path d={body} />
+        <clipPath id="loader-glass">
+          <path d={glass} />
         </clipPath>
-        <linearGradient id="loader-coffee" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#c89a6b" />
-          <stop offset="0.12" stopColor="#7a4a2b" />
-          <stop offset="1" stopColor="#3f2416" />
+        <linearGradient id="loader-coffee" x1="0" y1="60" x2="0" y2="112" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#8a5a33" />
+          <stop offset="1" stopColor="#3b2416" />
         </linearGradient>
       </defs>
-      {[44, 58, 72].map((x, i) => (
-        <path
-          key={x}
-          className="loader-steam"
-          style={{ animationDelay: `${i * 0.35}s` }}
-          d={`M${x} 44c-5-6 5-10 0-17s5-10 0-16`}
-          fill="none"
-          stroke="currentColor"
-          strokeOpacity="0.45"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        />
-      ))}
-      <g clipPath="url(#loader-cup)">
-        <rect x="30" y="52" width="60" height="46" fill="#f3e8d8" />
-        <rect className="loader-fill" x="30" y="52" width="60" height="46" fill="url(#loader-coffee)" />
+
+      {/* turning brass arc */}
+      <circle cx="60" cy="70" r="56" fill="none" stroke="currentColor" strokeOpacity="0.1" strokeWidth="1.5" />
+      <circle className="loader-arc" cx="60" cy="70" r="56" fill="none" stroke="#c9a14e" strokeWidth="2" strokeLinecap="round" strokeDasharray="70 282" />
+
+      {/* phin: knob, lid, chamber, plate */}
+      <g fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round">
+        <rect x="56" y="17" width="8" height="4" rx="1.5" />
+        <rect x="46" y="21" width="28" height="5" rx="2" />
+        <path d="M48 26 50 45h20l2-19" />
+        <path d="M37 48h46" strokeWidth="2.8" />
       </g>
-      <path d={body} fill="none" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
-      <path d="M90 58h5a8 8 0 0 1 0 16h-7" fill="none" stroke="currentColor" strokeWidth="3" />
-      <path d="M20 104h80" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
+
+      {/* drops */}
+      {[0, 0.3, 0.6].map((d) => (
+        <ellipse key={d} className="loader-drop" style={{ animationDelay: `${d}s` }} cx="60" cy="52" rx="1.6" ry="2.4" fill="#c9a14e" />
+      ))}
+
+      {/* coffee rising inside the glass */}
+      <g clipPath="url(#loader-glass)">
+        <rect x="38" y="54" width="44" height="60" fill="currentColor" fillOpacity="0.08" />
+        <g className="loader-level">
+          <g className="loader-wave-slow">
+            <path d={wave(109)} fill="#c9a14e" />
+          </g>
+          <g className="loader-wave">
+            <path d={wave(112)} fill="url(#loader-coffee)" />
+          </g>
+        </g>
+      </g>
+
+      {/* glass outline and a highlight */}
+      <path d={glass} fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round" />
+      <path d="M47 64 49.5 100" stroke="currentColor" strokeOpacity="0.35" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }

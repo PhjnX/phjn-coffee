@@ -126,20 +126,35 @@ body {
   .scroll-cue { animation: none; }
 }
 
-/* Page loader: a cup that fills while steam rises. Pure CSS so it runs before hydration. */
-@keyframes loader-fill {
-  0% { transform: translateY(100%); }
-  70%, 100% { transform: translateY(8%); }
+/*
+ * Page loader: a phin drips into a glass that fills with a rippling surface, inside a slowly
+ * turning brass arc. Pure CSS so it runs before hydration.
+ */
+/* Fills, holds, then fades out while full so the next pour starts from an empty glass unseen. */
+@keyframes loader-level {
+  0% { transform: translateY(0); opacity: 1; }
+  72%, 88% { transform: translateY(-50px); opacity: 1; }
+  100% { transform: translateY(-50px); opacity: 0; }
 }
-@keyframes loader-steam {
-  0% { transform: translateY(8px) scaleX(1); opacity: 0; }
-  35% { opacity: 0.7; }
-  100% { transform: translateY(-22px) scaleX(1.4); opacity: 0; }
+@keyframes loader-wave {
+  to { transform: translateX(-60px); }
 }
-.loader-fill { animation: loader-fill 1.6s cubic-bezier(0.45, 0, 0.2, 1) infinite; transform-box: fill-box; }
-.loader-steam { animation: loader-steam 1.8s ease-out infinite; transform-origin: bottom center; transform-box: fill-box; }
+@keyframes loader-drop {
+  0% { transform: translateY(0) scaleY(0.6); opacity: 0; }
+  15% { opacity: 1; }
+  70% { transform: translateY(26px) scaleY(1.2); opacity: 1; }
+  100% { transform: translateY(32px) scaleY(1); opacity: 0; }
+}
+@keyframes loader-spin {
+  to { transform: rotate(360deg); }
+}
+.loader-level { animation: loader-level 2.8s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
+.loader-wave { animation: loader-wave 1.4s linear infinite; }
+.loader-wave-slow { animation: loader-wave 2.2s linear infinite reverse; }
+.loader-drop { animation: loader-drop 0.9s ease-in infinite; transform-box: fill-box; transform-origin: center; }
+.loader-arc { animation: loader-spin 2.4s linear infinite; transform-origin: 60px 70px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .loader-fill, .loader-steam { animation: none; }
-  .loader-fill { transform: translateY(30%); }
+  .loader-level, .loader-wave, .loader-wave-slow, .loader-drop, .loader-arc { animation: none; }
+  .loader-level { transform: translateY(-34px); }
 }

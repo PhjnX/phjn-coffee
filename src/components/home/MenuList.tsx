@@ -55,7 +55,7 @@ export function MenuList({ categories, products }: { categories: Category[]; pro
                 <Link href={`/menu?mon=${p.slug}`} className="group flex items-center gap-5">
                   <ProductPhoto
                     item={p}
-                    className="size-[72px] shrink-0 rounded-full ring-4 ring-espresso/90 transition-transform duration-500 group-hover:scale-105 md:size-20"
+                    className="size-[72px] shrink-0 rounded-full ring-1 ring-cream/30 transition-transform duration-500 group-hover:scale-105 md:size-20"
                     sizes="96px"
                   />
                   <span className="min-w-0 flex-1">

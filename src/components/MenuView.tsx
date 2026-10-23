@@ -262,7 +262,7 @@ function MenuItem({ product: p, onSelect, canOrder }: { product: Product; onSele
       <span className="relative shrink-0">
         <ProductPhoto
           item={p}
-          className={`size-[72px] rounded-full ring-4 ring-espresso/90 md:size-20 ${soldOut ? "opacity-60 grayscale" : ""}`}
+          className={`size-[72px] rounded-full ring-2 ring-espresso/80 ring-offset-2 ring-offset-paper md:size-20 ${soldOut ? "opacity-60 grayscale" : ""}`}
           sizes="80px"
         />
         {!soldOut && canOrder && (
