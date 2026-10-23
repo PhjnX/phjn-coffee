@@ -9,7 +9,7 @@ const ROUTE_MIN_MS = 800;
 const SAFETY_MS = 6000;
 
 /**
- * Full-screen coffee loader, black line drawing on white: a phin drips into a glass that fills. It is in the server HTML, so it covers the first paint on a visit or
+ * Full-screen coffee loader, black line drawing on white: the logo's cup fills while steam rises. It is in the server HTML, so it covers the first paint on a visit or
  * reload and lifts once the page has loaded. Clicking a link to another page shows it again until
  * the new route renders. Same-page links (hashes, query changes) don't trigger it.
  */
@@ -78,7 +78,7 @@ export function PageLoader() {
           // Lifts away like a curtain to show the page underneath.
           exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
         >
-          <LoaderPhin />
+          <LoaderCup />
         </motion.div>
       )}
     </AnimatePresence>
@@ -86,70 +86,38 @@ export function PageLoader() {
 }
 
 /**
- * A phin filter on a glass, drawn as black outlines on white: outlined drops fall from the phin,
- * a wavy line rises inside the glass as it fills, and a thin arc turns around it all.
+ * The logo's cup on its saucer, drawn large as black outlines on white: two curls of steam rise
+ * and fade, a wavy line fills the cup, and a thin arc turns around it.
  */
-function LoaderPhin() {
-  const glass = "M41 56 45 108q.5 4 4.5 4h21q4 0 4.5-4L79 56Z";
-  // A gentle wave 60 units long, repeated so sliding it by one period loops seamlessly.
-  const wave = (y: number) => `M-60 ${y}${" q15 -4 30 0 t30 0".repeat(5)}`;
+function LoaderCup() {
+  const body = "M10 17h26v4c0 7-5.5 12-13 12S10 28 10 21z";
+  // A small wave 12 units long, repeated so sliding it by one period loops seamlessly.
+  const wave = `M-2 32${" q3 -1.2 6 0 t6 0".repeat(5)}`;
   return (
-    <svg
-      viewBox="0 0 120 140"
-      width="168"
-      height="196"
-      className="h-48 w-40 text-[#111]"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <defs>
-        <clipPath id="loader-glass">
-          <path d={glass} />
-        </clipPath>
-      </defs>
+    <svg viewBox="0 0 120 120" width="160" height="160" className="size-40 text-[#111]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="60" cy="60" r="56" strokeOpacity="0.12" strokeWidth="1.5" />
+      <circle className="loader-arc" cx="60" cy="60" r="56" strokeWidth="2" strokeDasharray="70 282" />
 
-      {/* turning arc */}
-      <circle cx="60" cy="70" r="56" strokeOpacity="0.12" strokeWidth="1.5" />
-      <circle className="loader-arc" cx="60" cy="70" r="56" strokeWidth="2" strokeDasharray="70 282" />
-
-      {/* phin: knob, lid, chamber, plate */}
-      <g strokeWidth="2.2" fill="#fff">
-        <rect x="56" y="17" width="8" height="4" rx="1.5" />
-        <rect x="46" y="21" width="28" height="5" rx="2" />
-        <path d="M48 26 50 45h20l2-19Z" />
-        <path d="M37 48h46" strokeWidth="2.8" />
-      </g>
-
-      {/* outlined drops */}
-      {[0, 0.3, 0.6].map((d) => (
-        <path
-          key={d}
-          className="loader-drop"
-          style={{ animationDelay: `${d}s` }}
-          d="M60 49.5c-1.8 2.4-2.6 3.8-2.6 5a2.6 2.6 0 0 0 5.2 0c0-1.2-.8-2.6-2.6-5Z"
-          fill="#fff"
-          strokeWidth="1.4"
-        />
-      ))}
-
-      {/* a wavy line rising inside the glass */}
-      <g clipPath="url(#loader-glass)">
-        <g className="loader-level">
-          <g className="loader-wave">
-            <path d={wave(112)} strokeWidth="2.2" />
-          </g>
-          <g className="loader-wave-slow">
-            <path d={wave(117)} strokeWidth="1.2" strokeOpacity="0.45" />
+      {/* the logo cup, scaled up; strokes keep their width */}
+      <g transform="translate(18.6 25.8) scale(1.8)">
+        <defs>
+          <clipPath id="loader-cup">
+            <path d={body} />
+          </clipPath>
+        </defs>
+        <path className="loader-steam" d="M20 2c-3 3 3 5 0 9" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+        <path className="loader-steam" style={{ animationDelay: "0.6s" }} d="M27 3c-3 3 3 5 0 9" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+        <path d={body} fill="#fff" strokeWidth="2.4" vectorEffect="non-scaling-stroke" />
+        <g clipPath="url(#loader-cup)">
+          <g className="loader-level">
+            <g className="loader-wave">
+              <path d={wave} strokeWidth="2" vectorEffect="non-scaling-stroke" />
+            </g>
           </g>
         </g>
+        <path d="M36 20h2.5a4 4 0 0 1 0 8H34" strokeWidth="2.4" vectorEffect="non-scaling-stroke" />
+        <path d="M6 35.5h34" strokeWidth="2.8" vectorEffect="non-scaling-stroke" />
       </g>
-
-      {/* glass outline and a highlight */}
-      <path d={glass} strokeWidth="2.4" />
-      <path d="M47 64 49.5 100" strokeOpacity="0.3" strokeWidth="1.6" />
     </svg>
   );
 }

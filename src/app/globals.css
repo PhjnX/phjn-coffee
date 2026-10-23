@@ -127,34 +127,32 @@ body {
 }
 
 /*
- * Page loader: a phin drips into a glass that fills with a rippling surface, inside a slowly
- * turning brass arc. Pure CSS so it runs before hydration.
+ * Page loader: the logo's cup on its saucer, black outlines on white. Steam curls rise and fade,
+ * a wavy line fills the cup, and a thin arc turns around it. Pure CSS so it runs before hydration.
+ * Units are the cup's own 46×40 drawing grid.
  */
-/* Fills, holds, then fades out while full so the next pour starts from an empty glass unseen. */
 @keyframes loader-level {
   0% { transform: translateY(0); opacity: 1; }
-  72%, 88% { transform: translateY(-50px); opacity: 1; }
-  100% { transform: translateY(-50px); opacity: 0; }
+  72%, 88% { transform: translateY(-12px); opacity: 1; }
+  100% { transform: translateY(-12px); opacity: 0; }
 }
 @keyframes loader-wave {
-  to { transform: translateX(-60px); }
+  to { transform: translateX(-12px); }
 }
-@keyframes loader-drop {
-  0% { transform: translateY(0) scaleY(0.6); opacity: 0; }
-  15% { opacity: 1; }
-  70% { transform: translateY(26px) scaleY(1.2); opacity: 1; }
-  100% { transform: translateY(32px) scaleY(1); opacity: 0; }
+@keyframes loader-steam {
+  0% { transform: translateY(3px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-5px); opacity: 0; }
 }
 @keyframes loader-spin {
   to { transform: rotate(360deg); }
 }
 .loader-level { animation: loader-level 2.8s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
-.loader-wave { animation: loader-wave 1.4s linear infinite; }
-.loader-wave-slow { animation: loader-wave 2.2s linear infinite reverse; }
-.loader-drop { animation: loader-drop 0.9s ease-in infinite; transform-box: fill-box; transform-origin: center; }
-.loader-arc { animation: loader-spin 2.4s linear infinite; transform-origin: 60px 70px; }
+.loader-wave { animation: loader-wave 1.2s linear infinite; }
+.loader-steam { animation: loader-steam 1.8s ease-out infinite; }
+.loader-arc { animation: loader-spin 2.4s linear infinite; transform-origin: 60px 60px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .loader-level, .loader-wave, .loader-wave-slow, .loader-drop, .loader-arc { animation: none; }
-  .loader-level { transform: translateY(-34px); }
+  .loader-level, .loader-wave, .loader-steam, .loader-arc { animation: none; }
+  .loader-level { transform: translateY(-8px); }
 }
