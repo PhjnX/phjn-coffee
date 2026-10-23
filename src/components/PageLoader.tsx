@@ -9,7 +9,7 @@ const ROUTE_MIN_MS = 800;
 const SAFETY_MS = 6000;
 
 /**
- * Full-screen coffee loader, black line drawing on white: the logo's cup fills while steam rises. It is in the server HTML, so it covers the first paint on a visit or
+ * Full-screen coffee loader, navy line drawing on cream: the logo's cup fills while steam rises. It is in the server HTML, so it covers the first paint on a visit or
  * reload and lifts once the page has loaded. Clicking a link to another page shows it again until
  * the new route renders. Same-page links (hashes, query changes) don't trigger it.
  */
@@ -72,7 +72,7 @@ export function PageLoader() {
           key="loader"
           role="status"
           aria-label="Đang tải"
-          className="fixed inset-0 z-[100] grid place-items-center bg-white"
+          className="fixed inset-0 z-[100] grid place-items-center bg-paper"
           initial={false}
           animate={{ y: 0 }}
           // Lifts away like a curtain to show the page underneath.
@@ -86,7 +86,7 @@ export function PageLoader() {
 }
 
 /**
- * The logo's cup on its saucer, drawn large as black outlines on white: two curls of steam rise
+ * The logo's cup on its saucer, drawn as navy outlines on the cream page colour: two curls of steam rise
  * and fade, a wavy line fills the cup, and a thin arc turns around it.
  */
 function LoaderCup() {
@@ -94,7 +94,7 @@ function LoaderCup() {
   // A small wave 12 units long, repeated so sliding it by one period loops seamlessly.
   const wave = `M-2 32${" q3 -1.2 6 0 t6 0".repeat(5)}`;
   return (
-    <svg viewBox="0 0 120 120" width="160" height="160" className="size-40 text-[#111]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg viewBox="0 0 120 120" width="112" height="112" className="size-28 text-ink" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <circle cx="60" cy="60" r="56" strokeOpacity="0.12" strokeWidth="1.5" />
       <circle className="loader-arc" cx="60" cy="60" r="56" strokeWidth="2" strokeDasharray="70 282" />
 
@@ -107,7 +107,7 @@ function LoaderCup() {
         </defs>
         <path className="loader-steam" d="M20 2c-3 3 3 5 0 9" strokeWidth="2" vectorEffect="non-scaling-stroke" />
         <path className="loader-steam" style={{ animationDelay: "0.6s" }} d="M27 3c-3 3 3 5 0 9" strokeWidth="2" vectorEffect="non-scaling-stroke" />
-        <path d={body} fill="#fff" strokeWidth="2.4" vectorEffect="non-scaling-stroke" />
+        <path d={body} fill="var(--paper)" strokeWidth="2.4" vectorEffect="non-scaling-stroke" />
         <g clipPath="url(#loader-cup)">
           <g className="loader-level">
             <g className="loader-wave">
