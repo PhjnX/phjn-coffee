@@ -41,7 +41,10 @@ const cells: Cell[] = [
   { kind: "stores" },
 ];
 
-/** Four-across grid of square tiles: photos that zoom on hover, alternating with cream info cards. */
+/**
+ * Four-across grid of square tiles: photos that zoom on hover, alternating with cream info cards
+ * (the ordering one in navy). Phones show only the info cards, so the page stays short.
+ */
 export function Mosaic() {
   return (
     <section
@@ -51,7 +54,7 @@ export function Mosaic() {
       {cells.map((cell, i) => (
         <motion.div
           key={i}
-          className="relative aspect-square overflow-hidden"
+          className={`relative overflow-hidden sm:aspect-square ${cell.kind === "photo" ? "hidden sm:block" : ""}`}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-40px" }}
@@ -66,7 +69,7 @@ export function Mosaic() {
               className="object-cover transition-transform duration-[1.2s] ease-out hover:scale-110"
             />
           ) : (
-            <InfoTile>
+            <InfoTile dark={cell.kind === "delivery"}>
               {cell.kind === "hours" && (
                 <>
                   <TileTitle>Giờ mở cửa</TileTitle>
@@ -95,7 +98,7 @@ export function Mosaic() {
                   </p>
                   <Link
                     href="/menu"
-                    className="mt-6 rounded-full border border-ink/40 px-7 py-3 text-xs font-medium tracking-[0.18em] uppercase transition-colors hover:border-caramel hover:bg-caramel hover:text-cream"
+                    className="mt-6 rounded-full bg-caramel px-7 py-3 text-xs font-semibold tracking-[0.14em] text-espresso uppercase transition-colors hover:bg-cream"
                   >
                     Xem thực đơn
                   </Link>
@@ -123,9 +126,13 @@ export function Mosaic() {
   );
 }
 
-function InfoTile({ children }: { children: React.ReactNode }) {
+function InfoTile({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
-    <div className="relative flex size-full flex-col items-center justify-center bg-paper-2 p-6 text-center">
+    <div
+      className={`relative flex size-full flex-col items-center justify-center px-6 py-14 text-center sm:py-6 ${
+        dark ? "bg-espresso text-cream [&_p]:text-cream/80" : "bg-paper-2"
+      }`}
+    >
       {/* faint coffee-bean line art behind the text */}
       <svg
         aria-hidden

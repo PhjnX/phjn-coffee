@@ -20,7 +20,7 @@ export function Welcome() {
   const smallY = useTransform(scrollYProgress, [0, 1], [140, -140]);
 
   return (
-    <section id="cau-chuyen" ref={ref} className="scroll-mt-20 overflow-hidden py-24 md:py-32">
+    <section id="cau-chuyen" ref={ref} className="scroll-mt-20 overflow-hidden py-20 md:py-32">
       <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 md:grid-cols-2 md:px-10">
         <div>
           <SectionTitle script="Chào bạn đến với" title="Phjn Coffee" align="left" />
@@ -37,7 +37,6 @@ export function Welcome() {
             </p>
             <p>Mỗi sáng 6 giờ, mẻ bánh đầu tiên ra lò. Cold brew được ủ 16 tiếng, trân châu nấu lại mỗi 4 tiếng.</p>
           </motion.div>
-          <p className="mt-6 font-display text-2xl text-caramel-dark">Phjn Coffee</p>
 
           <ul className="mt-12 grid gap-8 sm:grid-cols-3">
             {features.map((f, i) => (
@@ -56,7 +55,7 @@ export function Welcome() {
           </ul>
         </div>
 
-        <div className="relative mx-auto h-[520px] w-full max-w-[480px] md:h-[600px]">
+        <div className="relative mx-auto h-[380px] w-full max-w-[480px] md:h-[600px]">
           <motion.div style={{ y: bigY }} className="absolute top-0 right-0 h-[82%] w-[76%] overflow-hidden">
             <Image src="/images/scenes/barista-smile.webp" alt="Barista mỉm cười đưa ly latte" fill sizes="(min-width: 768px) 360px, 76vw" className="object-cover" />
           </motion.div>

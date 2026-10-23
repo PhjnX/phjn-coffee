@@ -25,7 +25,7 @@ export function QuoteBand() {
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       >
         <p className="font-display text-4xl leading-snug text-white md:text-6xl">Cà phê ngon không cần vội.</p>
-        <footer className="mt-6 font-display text-lg text-[#e0c39f]">Phjn Coffee · Sài Gòn</footer>
+        <footer className="mt-6 font-display text-lg text-[#e3c27a]">Phjn Coffee · Sài Gòn</footer>
       </motion.blockquote>
     </section>
   );

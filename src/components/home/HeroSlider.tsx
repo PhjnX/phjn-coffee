@@ -256,7 +256,7 @@ export function HeroSlider() {
               <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85 md:text-lg">{slide.text}</p>
               <Link
                 href={slide.cta.href}
-                className="mt-9 border border-white/70 px-8 py-3.5 text-xs font-semibold tracking-[0.25em] uppercase transition-colors hover:border-caramel hover:bg-caramel"
+                className="mt-9 rounded-full bg-caramel px-8 py-3.5 text-xs font-semibold tracking-[0.2em] text-ink uppercase transition-colors hover:bg-cream"
               >
                 {slide.cta.label}
               </Link>
@@ -307,7 +307,7 @@ export function HeroSlider() {
               animate={{ opacity: 1, y: 0, rotate: b.r }}
               transition={{ duration: t(1.1), delay: t(0.3 + i * 0.08), ease }}
             >
-              <Image src={`/images/deco/bean-${b.b}.webp`} alt="" width={120} height={160} className="h-auto w-full drop-shadow-[0_10px_10px_rgb(59_46_37/0.35)]" />
+              <Image src={`/images/deco/bean-${b.b}.webp`} alt="" width={120} height={160} className="h-auto w-full drop-shadow-[0_10px_10px_rgb(29_43_69/0.35)]" />
             </motion.div>
           ))}
         </motion.div>
@@ -320,7 +320,7 @@ export function HeroSlider() {
           transition={{ duration: t(0.9), ease }}
         >
           <motion.div initial={{ opacity: 0, rotate: 25, scale: 0.9 }} animate={{ opacity: 1, rotate: 0, scale: 1 }} transition={{ duration: t(1.4), delay: t(0.2), ease }}>
-            <Image src="/images/deco/cup-top.webp" alt="" width={900} height={858} priority className="h-auto w-full drop-shadow-[0_30px_30px_rgb(59_46_37/0.35)]" />
+            <Image src="/images/deco/cup-top.webp" alt="" width={900} height={858} priority className="h-auto w-full drop-shadow-[0_30px_30px_rgb(29_43_69/0.35)]" />
           </motion.div>
         </motion.div>
 

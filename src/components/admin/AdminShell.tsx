@@ -42,7 +42,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 key={n.href}
                 href={n.href}
                 className={`relative flex items-center gap-3 rounded-2xl px-4 py-3 transition-colors ${
-                  on ? "bg-card text-ink shadow-[0_8px_20px_-14px_rgb(59_46_37/0.6)]" : "text-ink-soft hover:bg-card/50 hover:text-ink"
+                  on ? "bg-card text-ink shadow-[0_8px_20px_-14px_rgb(29_43_69/0.6)]" : "text-ink-soft hover:bg-card/50 hover:text-ink"
                 }`}
               >
                 {on && <span className="absolute top-1/2 left-0 h-6 w-1 -translate-y-1/2 rounded-r-full bg-caramel" />}

@@ -53,7 +53,7 @@ export default async function AdminMenuPage() {
               {products.map((p) => (
                 <li
                   key={p.id}
-                  className="flex items-center gap-4 rounded-[22px] border border-line bg-card p-3 pr-4 shadow-[0_18px_40px_-34px_rgb(59_46_37/0.6)]"
+                  className="flex items-center gap-4 rounded-[22px] border border-line bg-card p-3 pr-4 shadow-[0_18px_40px_-34px_rgb(29_43_69/0.6)]"
                 >
                   <ProductPhoto item={p} className={`size-16 shrink-0 rounded-2xl ${p.isAvailable ? "" : "opacity-50 grayscale"}`} sizes="64px" />
                   <Link href={`/admin/thuc-don/${p.id}`} className="group min-w-0 flex-1">

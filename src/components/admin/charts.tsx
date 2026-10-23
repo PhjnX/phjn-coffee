@@ -145,7 +145,7 @@ function Tooltip({ x, y, width, children }: { x: number; y: number; width: numbe
   const leftPos = Math.min(Math.max(x - w / 2, 0), Math.max(0, width - w));
   return (
     <div
-      className="pointer-events-none absolute z-10 rounded-xl border border-line bg-white px-3 py-2 text-sm shadow-[0_10px_30px_-12px_rgb(59_46_37/0.45)]"
+      className="pointer-events-none absolute z-10 rounded-xl border border-line bg-white px-3 py-2 text-sm shadow-[0_10px_30px_-12px_rgb(29_43_69/0.45)]"
       style={{ left: leftPos, top: Math.max(0, y - 74), width: w }}
     >
       {children}

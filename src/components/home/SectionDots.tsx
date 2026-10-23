@@ -42,7 +42,7 @@ export function SectionDots() {
                 <span className="relative grid size-3 place-items-center">
                   <motion.span
                     className="block rounded-full bg-ink"
-                    animate={{ width: on ? 10 : 5, height: on ? 10 : 5, opacity: on ? 1 : 0.45, backgroundColor: on ? "#b08155" : "#3b2e25" }}
+                    animate={{ width: on ? 10 : 5, height: on ? 10 : 5, opacity: on ? 1 : 0.45, backgroundColor: on ? "#b08155" : "#1d2b45" }}
                     transition={{ type: "spring", stiffness: 400, damping: 28 }}
                   />
                   {on && <span className="absolute inset-[-4px] rounded-full border border-caramel/50" />}

@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#e9dcc8",
+  themeColor: "#1d2b45",
 };
 
 /** Fonts and motion settings shared by the shop (app/(site)) and the admin (app/admin). */

@@ -23,18 +23,21 @@ export function Featured({ products }: { products: Product[] }) {
   const half = Math.ceil(products.length / 2);
 
   return (
-    <section id="yeu-thich" ref={ref} className="scroll-mt-16 overflow-hidden py-24 md:py-32">
+    <section id="yeu-thich" ref={ref} className="scroll-mt-16 overflow-hidden py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-6 md:px-10">
         <SectionTitle script="Được yêu thích" title="Món khách hay quay lại" />
       </div>
       <div className="mt-14 space-y-10">
         <Row products={products.slice(0, half)} x={rowA} />
-        <Row products={products.slice(half)} x={rowB} />
+        {/* One row on phones keeps the section short; the second row drifts the other way on wide screens. */}
+        <div className="hidden md:block">
+          <Row products={products.slice(half)} x={rowB} />
+        </div>
       </div>
       <div className="mt-14 text-center">
         <Link
           href="/menu"
-          className="inline-block border border-ink/40 px-9 py-3.5 text-xs font-semibold tracking-[0.25em] uppercase transition-colors hover:border-caramel hover:bg-caramel hover:text-cream"
+          className="inline-block rounded-full bg-ink px-9 py-3.5 text-xs font-semibold tracking-[0.2em] text-cream uppercase transition-colors hover:bg-caramel hover:text-ink"
         >
           Xem toàn bộ thực đơn
         </Link>
@@ -58,7 +61,7 @@ function Row({ products, x }: { products: Product[]; x: MotionValue<string> }) {
           <Link href={`/menu?mon=${p.slug}`} className="group block text-center">
             <ProductPhoto
               item={p}
-              className="aspect-[4/5] rounded-t-full shadow-[0_24px_40px_-28px_rgb(59_46_37/0.6)] transition-transform duration-700 ease-out group-hover:-translate-y-1.5"
+              className="aspect-[4/5] rounded-t-full shadow-[0_24px_40px_-28px_rgb(29_43_69/0.6)] transition-transform duration-700 ease-out group-hover:-translate-y-1.5"
               sizes="(min-width: 768px) 240px, 190px"
             />
             {p.badge && <p className="mt-4 text-[10px] font-semibold tracking-[0.25em] text-caramel uppercase">{badgeText[p.badge]}</p>}

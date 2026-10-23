@@ -234,7 +234,7 @@ function OrderCard({ order: o, fresh, onAct }: { order: StoredOrder; fresh: bool
   const step = nextStep(o);
   const canCancel = o.status === "new" || o.status === "preparing";
   return (
-    <article className={`flex h-full flex-col rounded-[24px] border bg-card p-5 transition-shadow ${fresh ? "border-caramel shadow-[0_0_0_3px_rgb(176_129_85/0.25)]" : "border-line shadow-[0_18px_40px_-34px_rgb(59_46_37/0.6)]"}`}>
+    <article className={`flex h-full flex-col rounded-[24px] border bg-card p-5 transition-shadow ${fresh ? "border-caramel shadow-[0_0_0_3px_rgb(176_129_85/0.25)]" : "border-line shadow-[0_18px_40px_-34px_rgb(29_43_69/0.6)]"}`}>
       <header className="flex items-start justify-between gap-3">
         <div>
           <p className="font-display text-2xl leading-none">{o.type === "table" ? `Bàn ${o.table}` : "Giao hàng"}</p>

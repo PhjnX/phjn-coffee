@@ -42,7 +42,7 @@ export function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <section className={`rounded-[28px] border border-line bg-card p-5 shadow-[0_18px_40px_-34px_rgb(59_46_37/0.6)] md:p-6 ${className}`}>
+    <section className={`rounded-[28px] border border-line bg-card p-5 shadow-[0_18px_40px_-34px_rgb(29_43_69/0.6)] md:p-6 ${className}`}>
       {title && (
         <div className="mb-4 flex items-baseline justify-between gap-3">
           <h2 className="font-display text-lg">{title}</h2>

@@ -12,7 +12,7 @@ export function MenuHero({ available }: { available: number }) {
         <Image src="/images/scenes/croissant-coffee.webp" alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-50" />
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-espresso/40 via-espresso/10 to-espresso/55" />
         <div className="flex min-h-[260px] flex-col items-center justify-center px-4 pt-8 pb-16 text-center md:min-h-[400px] md:pb-24">
-          <p className="text-xs font-semibold tracking-[0.3em] text-[#e0c39f] uppercase">Phjn Coffee · Sài Gòn</p>
+          <p className="text-xs font-semibold tracking-[0.3em] text-[#e3c27a] uppercase">Phjn Coffee · Sài Gòn</p>
           <h1 className="mt-3 font-display text-[52px] leading-none font-medium text-white md:text-8xl">Thực đơn</h1>
           <p className="mt-4 text-[15px] text-white/85">{available} món đang phục vụ hôm nay</p>
         </div>

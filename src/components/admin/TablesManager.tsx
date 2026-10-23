@@ -41,7 +41,7 @@ export function TablesManager({ tables }: { tables: Table[] }) {
         }
       />
 
-      <form ref={form} action={action} className="mt-8 flex flex-wrap items-end gap-3 rounded-[24px] border border-line bg-card p-5 shadow-[0_18px_40px_-34px_rgb(59_46_37/0.6)]">
+      <form ref={form} action={action} className="mt-8 flex flex-wrap items-end gap-3 rounded-[24px] border border-line bg-card p-5 shadow-[0_18px_40px_-34px_rgb(29_43_69/0.6)]">
         <label className="block w-28">
           <span className="mb-1.5 block text-sm font-medium">Số bàn</span>
           <input name="number" inputMode="numeric" defaultValue={next} key={next} className="w-full rounded-xl border border-line bg-paper px-3 py-2.5 text-base outline-none focus:border-caramel" />
@@ -58,7 +58,7 @@ export function TablesManager({ tables }: { tables: Table[] }) {
 
       <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {tables.map((t) => (
-          <li key={t.number} className="flex flex-col items-center rounded-[24px] border border-line bg-card p-5 text-center shadow-[0_18px_40px_-34px_rgb(59_46_37/0.6)]">
+          <li key={t.number} className="flex flex-col items-center rounded-[24px] border border-line bg-card p-5 text-center shadow-[0_18px_40px_-34px_rgb(29_43_69/0.6)]">
             <p className="font-display text-3xl">Bàn {t.number}</p>
             <p className="text-xs text-ink-soft">{t.area}</p>
             <TableQr number={t.number} size={128} className="mt-3" />

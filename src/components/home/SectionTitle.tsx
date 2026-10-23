@@ -24,7 +24,7 @@ export function SectionTitle({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <p className={`text-xs font-semibold tracking-[0.3em] uppercase ${light ? "text-[#e0c39f]" : "text-caramel-dark"}`}>{script}</p>
+      <p className={`text-xs font-semibold tracking-[0.3em] uppercase ${light ? "text-[#e3c27a]" : "text-caramel-dark"}`}>{script}</p>
       <h2
         className={`mt-3 font-display text-4xl leading-tight md:text-5xl ${light ? "text-white" : "text-ink"}`}
       >
@@ -32,7 +32,7 @@ export function SectionTitle({
       </h2>
       <div className={`mt-5 flex items-center gap-3 ${center ? "justify-center" : ""}`} aria-hidden>
         <span className={`h-px w-16 ${light ? "bg-white/40" : "bg-caramel/50"}`} />
-        <BeansIcon className={`h-5 w-6 ${light ? "text-[#e0c39f]" : "text-caramel"}`} />
+        <BeansIcon className={`h-5 w-6 ${light ? "text-[#e3c27a]" : "text-caramel"}`} />
         <span className={`h-px w-16 ${light ? "bg-white/40" : "bg-caramel/50"}`} />
       </div>
     </motion.div>

@@ -22,7 +22,7 @@ export default async function LoginPage() {
         <div className="relative flex h-full flex-col justify-between p-6 text-cream sm:p-10">
           <Logo className="w-36 text-cream sm:w-44" />
           <div className="hidden max-w-md lg:block">
-            <p className="text-sm font-semibold tracking-[0.2em] text-[#e0c39f] uppercase">Quản trị quán</p>
+            <p className="text-sm font-semibold tracking-[0.2em] text-[#e3c27a] uppercase">Quản trị quán</p>
             <p className="mt-3 text-3xl leading-snug font-semibold">Mọi đơn hàng, món và bàn của quán ở một nơi.</p>
             <ul className="mt-6 space-y-2 text-[15px] text-cream/80">
               <li>· Nhận đơn tại bàn và giao hàng theo thời gian thực</li>

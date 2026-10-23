@@ -149,7 +149,7 @@ function Figure({ label, value, now, before, note, hero = false }: { label: stri
     } else if (now > 0) delta = { text: "Mới so với kỳ trước", up: true };
   }
   return (
-    <div className={`rounded-[24px] border p-4 md:p-5 ${hero ? "border-ink bg-ink text-cream" : "border-line bg-card shadow-[0_18px_40px_-34px_rgb(59_46_37/0.6)]"}`}>
+    <div className={`rounded-[24px] border p-4 md:p-5 ${hero ? "border-ink bg-ink text-cream" : "border-line bg-card shadow-[0_18px_40px_-34px_rgb(29_43_69/0.6)]"}`}>
       <p className={`text-sm ${hero ? "text-cream/70" : "text-ink-soft"}`}>{label}</p>
       <p className="mt-2 text-2xl font-semibold tracking-tight tabular-nums md:text-[28px]">{value}</p>
       {delta && (

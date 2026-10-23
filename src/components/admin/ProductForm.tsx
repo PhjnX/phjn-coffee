@@ -89,7 +89,7 @@ export function ProductForm({
             </select>
           </Field>
           <label className="flex items-center gap-3 self-end rounded-xl border border-line bg-paper px-4 py-3">
-            <input type="checkbox" name="isAvailable" defaultChecked={product?.isAvailable ?? true} className="size-4 accent-[#3b2e25]" />
+            <input type="checkbox" name="isAvailable" defaultChecked={product?.isAvailable ?? true} className="size-4 accent-[#1d2b45]" />
             <span className="text-[15px]">Đang bán</span>
           </label>
         </div>
@@ -104,7 +104,7 @@ export function ProductForm({
                 name="optionGroupIds"
                 value={g.id}
                 defaultChecked={product?.optionGroupIds.includes(g.id)}
-                className="mt-1 size-4 accent-[#3b2e25]"
+                className="mt-1 size-4 accent-[#1d2b45]"
               />
               <span>
                 <span className="block text-[15px]">{g.name}</span>
@@ -155,7 +155,7 @@ const input = "w-full rounded-xl border border-line bg-paper px-4 py-3 text-base
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-[24px] border border-line bg-card p-5 shadow-[0_18px_40px_-34px_rgb(59_46_37/0.6)] md:p-6">
+    <section className="rounded-[24px] border border-line bg-card p-5 shadow-[0_18px_40px_-34px_rgb(29_43_69/0.6)] md:p-6">
       <h2 className="mb-4 font-display text-xl">{title}</h2>
       {children}
     </section>

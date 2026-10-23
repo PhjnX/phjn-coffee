@@ -14,7 +14,7 @@ export function OrderConfirmation({ order }: { order: Order }) {
   // Demo only: the QR holds the order code and amount, not a real bank account.
   useEffect(() => {
     if (order.payment !== "transfer") return;
-    QRCode.toDataURL(`PHJN-DEMO|${order.code}|${order.total}`, { margin: 1, width: 440, color: { dark: "#3b2e25", light: "#fbf7f1" } })
+    QRCode.toDataURL(`PHJN-DEMO|${order.code}|${order.total}`, { margin: 1, width: 440, color: { dark: "#1d2b45", light: "#fbf7f1" } })
       .then(setQr)
       .catch(() => setQr(null));
   }, [order]);

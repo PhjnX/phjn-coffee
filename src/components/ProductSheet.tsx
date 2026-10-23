@@ -350,7 +350,7 @@ function OptionGroupField({
                 {checked && (
                   <motion.span
                     layoutId={`seg-${group.id}`}
-                    className="absolute inset-0 rounded-xl bg-card shadow-[0_2px_8px_-2px_rgb(59_46_37/0.25)]"
+                    className="absolute inset-0 rounded-xl bg-card shadow-[0_2px_8px_-2px_rgb(29_43_69/0.25)]"
                     transition={{ type: "spring", stiffness: 500, damping: 38 }}
                   />
                 )}
